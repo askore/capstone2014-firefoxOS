@@ -1,7 +1,7 @@
 'use strict';
 
 /*global firefoxos*/
-describe('firefoxos.js', function () {
+describe('base api function', function () {
 	beforeEach(function () {
 	});
 
@@ -10,11 +10,11 @@ describe('firefoxos.js', function () {
 	});
 
 	it('should exist', function () {
-		expect(typeof window.ajax).toBe('function');
+		expect(typeof ajax).toBe('function');
 	});
 
 	it('should return nothing', function () {
-		var result = window.ajax('bob', {}, function(d,s,x){
+		var result = ajax('bob', {}, function(d,s,x){
 			console.log(s);
 		});
 		expect(result).toBeUndefined();
