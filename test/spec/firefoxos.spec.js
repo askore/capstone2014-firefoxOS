@@ -1,6 +1,6 @@
 'use strict';
 
-/*global firefoxos*/
+/*global ajax*/
 describe('base api function', function () {
 	beforeEach(function () {
 	});
