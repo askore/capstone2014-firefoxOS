@@ -57,7 +57,7 @@ module.exports = function (grunt) {
 			app: {
 				files: {
 					'dist/firefoxos.js': [
-						'lib/firefoxos.js'
+						'lib/**/*.js'
 					]
 				}
 			}

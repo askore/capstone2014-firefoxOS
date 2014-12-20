@@ -14,7 +14,7 @@ describe('base api function', function () {
 	});
 
 	it('should return nothing', function () {
-		var result = ajax('bob', {}, function(d,s,x){
+		var result = ajax('http://mozilla.org', null, function(d,s,x){
 			console.log(s);
 		});
 		expect(result).toBeUndefined();
