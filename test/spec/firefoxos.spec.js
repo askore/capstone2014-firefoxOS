@@ -2,9 +2,6 @@
 
 /*global ajax*/
 describe('base api function', function () {
-	beforeEach(function () {
-	});
-
 	it('should have a working test harness', function () {
 		expect(true).not.toBe(false);
 	});
@@ -21,7 +18,7 @@ describe('base api function', function () {
 });
 
 describe('makes async requests', function () {
-	iit('should return something', function (done) {
+	it('should return something', function (done) {
 		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
 			expect(result).not.toBeUndefined();
 			expect(xhr.startedAt).not.toBeUndefined();
