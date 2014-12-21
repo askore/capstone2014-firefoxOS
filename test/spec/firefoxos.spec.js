@@ -29,7 +29,6 @@ describe('makes async requests', function () {
     
     it('should return null', function (done) {
 	ajax('http://mozilla.org', null, function (result, status, xhr) {
-	    console.log(result);
 	    expect(result).toBe(null);
 	    expect(status).toBe(null);
 	    expect(xhr).toBe(null);
