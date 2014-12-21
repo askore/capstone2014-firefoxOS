@@ -21,13 +21,11 @@ describe('base api function', function () {
 });
 
 describe('makes async requests', function () {
-	beforeEach(function () {
-		jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-		
-	});
-	it('should return something', function () {
-		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result) {
+	iit('should return something', function (done) {
+		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
 			expect(result).not.toBeUndefined();
+			expect(xhr.startedAt).not.toBeUndefined();
+			expect(status).toBe(200);
 			done();
 		});
 	});
