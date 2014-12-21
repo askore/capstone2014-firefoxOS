@@ -20,18 +20,15 @@ describe('base api function', function () {
 	});
 });
 
-ddescribe('makes async requests', function () {
-	var results;
-	beforeEach(function (done) {
+describe('makes async requests', function () {
+	beforeEach(function () {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-		results = null;
-		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result) {
-			results = result;
-			console.log(result);
-			done();
-		});
+		
 	});
 	it('should return something', function () {
-		expect(results).not.toBeUndefined();
+		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result) {
+			expect(result).not.toBeUndefined();
+			done();
+		});
 	});
 });
