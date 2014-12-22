@@ -7,11 +7,11 @@ Framework Setup
 ======================
 
 **Node.js**
-Download nodeJS (http://nodejs.org/)
-Open up the Node.js Command Prompt
-Navigate to your local firefox-OS repo
+```Download nodeJS (http://nodejs.org/)```
+```Open up the Node.js Command Prompt```
+```Navigate to your local firefox-OS repo```
 
-Run the following commands
+```Run the following commands```
 
 ````npm install````
 
