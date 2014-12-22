@@ -7,11 +7,11 @@ Framework Setup
 ======================
 
 **Node.js**
-Download nodeJS (http://nodejs.org/)
-Open up the Node.js Command Prompt
-Navigate to your local firefox-OS repo
+Download nodeJS (http://nodejs.org/)  
+Open up the Node.js Command Prompt  
+Navigate to your local firefox-OS repo  
 
-Run the following commands
+Run the following commands  
 
 ````npm install````
 
@@ -20,13 +20,13 @@ Run the following commands
 The build task will recompile the library and run the tests. If you've updated the test and only need to rerun them:
 ````grunt test````
 
-You'll see a bunch of tests get run and pass.
+You'll see a bunch of tests get run and pass.  
 
-**NetBeans**
-Download NetBeans from https://netbeans.org/downloads/
-Open NetBeans, create a "New Project", then select "HTML5 Application with Existing Sources"
-The "lib" folder will hold our API prototypes
-The "test/spec" folder will hold our tests files
+**NetBeans**  
+Download NetBeans from https://netbeans.org/downloads/  
+Open NetBeans, create a "New Project", then select "HTML5 Application with Existing Sources"  
+The "lib" folder will hold our API prototypes  
+The "test/spec" folder will hold our tests files  
 
 Development Practices
 =====================
