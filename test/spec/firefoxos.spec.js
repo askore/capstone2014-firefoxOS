@@ -26,13 +26,23 @@ describe('makes async requests', function () {
 	    done();
 	});
     });
-    
-    it('should return null', function (done) {
-	ajax('http://mozilla.org', null, function (result, status, xhr) {
-	    expect(result).toBe(null);
-	    expect(status).toBe(null);
-	    expect(xhr).toBe(null);
-	    done
+});
+
+describe('makes bogus requests', function () {    
+    it('should return 404', function (done) {
+	ajax('https://developer.mozilla.org/asdf', null, function (result, status, xhr) {
+	    expect(result).not.toBeUndefined();
+	    expect(result).not.toBe('NOT FOUND');
+	    expect(status).toBe(404);
+	    done();
+	});
+    });
+
+    it('should return 404 and "NOT FOUND"', function (done) {
+	ajax('asdfahg.com', null, function (result, status, xhr) {
+	    expect(result).toBe('NOT FOUND');
+	    expect(status).toBe(404);
+	    done();
 	});
     });
 });
