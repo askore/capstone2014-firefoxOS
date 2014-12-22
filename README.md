@@ -6,7 +6,7 @@ Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 Framework Setup
 ======================
 
-**Node.js**
+**Node.js**  
 Download nodeJS (http://nodejs.org/)  
 Open up the Node.js Command Prompt  
 Navigate to your local firefox-OS repo  
