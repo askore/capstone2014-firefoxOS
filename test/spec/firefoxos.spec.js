@@ -26,4 +26,12 @@ describe('makes async requests', function () {
 			done();
 		});
 	});
+	
+	it('should return results matching what we are requesting', function (done) {
+		ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+			expect(result).toContain("cats");
+			expect(result).not.toContain("dogs");
+			done();
+		});
+	});
 });
