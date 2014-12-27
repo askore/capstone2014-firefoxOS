@@ -64,3 +64,19 @@ describe('makes bogus requests', function () {
 	});
     });
 });
+
+
+describe('work with last access time stamp', function () {    
+    it('should save time stamp from last attempt', function (done) {
+	ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+            expect(xhr.startedAt.toUTCString()).toEqual(getLatestAccessTimeStamp());
+	    done();
+	});
+    });
+    
+    it('should keep last access timestamp', function (done){
+       expect(getLatestAccessTimeStamp()).not.toEqual("");
+       done();
+    });
+      
+});
