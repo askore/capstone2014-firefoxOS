@@ -1,8 +1,12 @@
 'use strict';
 
+ /* Test for listening to our "network-ready" event
+ 
  window.addEventListener('network-ready', function() {
 	console.log("It works");
  });
+ 
+ */
 
 /*global ajax*/
 describe('base api function', function () {
