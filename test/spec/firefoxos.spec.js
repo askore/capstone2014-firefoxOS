@@ -1,5 +1,9 @@
 'use strict';
 
+ window.addEventListener('network-ready', function() {
+	console.log("It works");
+ });
+
 /*global ajax*/
 describe('base api function', function () {
     it('should have a working test harness', function () {
