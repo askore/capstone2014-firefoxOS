@@ -1,6 +1,9 @@
 language: node.js
 node_js:
   - "0.10"
-before_install: npm install -g grunt-cli
+before_install:
+ - npm install -g grunt-cli
+ - wget  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ - sudo dpkg -i  google-chrome-stable_current_amd64.deb
 install: npm install
 before_script: grunt build
