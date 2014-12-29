@@ -1,6 +1,8 @@
 capstone2014-firefoxOS
 ======================
 
+[![Build Status](https://travis-ci.org/askore/capstone2014-firefoxOS.svg?branch=master)](https://travis-ci.org/askore/capstone2014-firefoxOS)
+
 Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
 Framework Setup / Development Practices
