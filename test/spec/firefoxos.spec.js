@@ -11,7 +11,7 @@
 /*global ajax*/
 describe('base api function', function () {
     it('should have a working test harness', function () {
-	expect(true).not.toBe(false);
+	expect(true).not.toBe(true);
     });
     
     it('should exist', function () {
