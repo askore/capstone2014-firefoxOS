@@ -12,6 +12,7 @@
 describe('base api function', function () {
     it('should have a working test harness', function () {
 	expect(true).not.toBe(false);
+        expect(false).not.toBe(true);
     });
     
     it('should exist', function () {
