@@ -4,5 +4,7 @@ node_js:
 before_install:
  - npm install -g grunt-cli
  - sudo apt-get install -y firefox
-install: npm install
+install: 
+ - npm install
+ - bower install
 before_script: xvfb-run grunt build

@@ -9,14 +9,16 @@ beforeEach(function(done){
 });
 
 afterEach(function(done){
-	localforage.clear(done);
+	if (localforage) {
+		localforage.clear(done);
+	}
 });
 
 describe('work with last access time stamp', function () {
     it('should keep last access timestamp or fail gracefully', function (done){
 
 		AL.getLatestAccessTimeStamp(function(result){
-			if (window.localforage) {
+			if (localforage) {
 				expect(result).not.toEqual(null);
 				expect(result).not.toBeUndefined();
 			} else {
@@ -27,12 +29,15 @@ describe('work with last access time stamp', function () {
 	});
 });
 
-ddescribe('keeps a history of requests', function(){
+describe('keeps a history of requests', function(){
 	it('should have an entry in the history', function(done){
 		AL.getHistory(function(history){
-			console.log(history);
-			expect(history).not.toBe(null);
-			expect(history.length).toBeGreaterThan(0);
+			if (localforage) {
+				expect(history).not.toBe(null);
+				expect(history.length).toBeGreaterThan(0);
+			} else {
+				expect(history).toBe(null);
+			}
 			done();
 		});
 	});
