@@ -15,9 +15,7 @@
     "package.json"
   ],
   "dependencies": {
-
+    "localforage": "~1.2.0"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }
