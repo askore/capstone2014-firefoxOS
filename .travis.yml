@@ -7,7 +7,4 @@ before_install:
 install: 
  - npm install
  - bower install
-before_script: 
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
- - xvfb-run grunt build
+before_script: xvfb-run grunt build
