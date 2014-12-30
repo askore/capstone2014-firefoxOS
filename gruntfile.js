@@ -57,6 +57,7 @@ module.exports = function (grunt) {
 			app: {
 				files: {
 					'dist/firefoxos.js': [
+						'bower_components/localforage/dist/localforage.nopromises.js',
 						'lib/**/*.js'
 					]
 				}
