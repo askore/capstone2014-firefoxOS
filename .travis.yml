@@ -7,4 +7,7 @@ before_install:
 install: 
  - npm install
  - bower install
-before_script: xvfb-run grunt build
+before_script:
+ - xvfb-run grunt build
+script:
+ - xvfb-run grunt test
