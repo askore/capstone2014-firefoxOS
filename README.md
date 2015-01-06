@@ -24,6 +24,8 @@ Run the following commands
 
 `npm install -g grunt-cli`  
 
+`bower install`
+
 `grunt build`
 
 The build task will recompile the library and run the tests. If you've updated the test and only need to rerun them:
