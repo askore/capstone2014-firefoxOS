@@ -48,7 +48,7 @@ describe('makes async requests', function () {
 
 describe('gracefully fails with cors blockage', function(){
 	it('should gracefully fail', function(done){
-		AL.ajax('https://openlibrary.org/api/books?bibkeys=ISBN:0451526538&format=json', null, function(result, status, xhr){
+		AL.ajax('http://php.scripts.psu.edu/dept/liberalarts/sites/kennett/phpinfo.php', null, function(result, status, xhr){
 			expect(status).toBe(0);
 			expect(result.trim()).toBe('');
 			done();
