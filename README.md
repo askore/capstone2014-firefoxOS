@@ -24,7 +24,7 @@ Run the following commands
 
 `npm install -g grunt-cli`  
 
-`bower install`
+`bower install` If bower is not found, run 'npm install -g bower'
 
 `grunt build`
 
