@@ -1,12 +1,7 @@
 'use strict';
 
- /* Test for listening to our "network-ready" event
 
- window.addEventListener('network-ready', function() {
-	console.log("It works");
- });
 
- */
 
 /*global AL*/
 describe('base api function', function () {
@@ -74,3 +69,38 @@ describe('makes bogus requests', function () {
 		});
     });
 });
+
+
+describe('make sure the event is fired when the request happens', function () {
+    it('fires', function (done) {
+   		var listener = function() {
+		  expect(true).toBe(true);
+		  window.removeEventListener('network-ready', listener);  
+		  done();
+	        }
+		window.addEventListener('network-ready', listener); 
+		
+                AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+                });
+    });
+});
+
+describe('The latency is recorded', function() {
+    it('is recorded', function(done){
+        AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+          AL.getLatestAccessTimeStamp(function (result) {
+	    expect(result).not.toBeUndefined();
+            done();  	  
+          });
+	  
+        });
+    });
+});
+
+
+
+
+
+
+
+
