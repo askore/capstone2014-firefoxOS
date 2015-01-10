@@ -74,3 +74,22 @@ describe('makes bogus requests', function () {
 		});
     });
 });
+
+describe('verify GET and POST are chosen appropriately', function () {
+    it('should be GET', function (done) {
+        // TODO: Personal URL should be replaced with Server-side URL when server side setup
+        ajax('http://ryan52.info/test.php', null, function (result, status, xhr) {
+            expect(result).toContain("GET");
+            done();
+        });
+    });
+
+    it('should be POST', function (done) {
+        // TODO: Personal URL should be replaced with Server-side URL when server side setup
+        ajax('http://ryan52.info/test.php', 'DATA', function (result, status, xhr) {
+            expect(result).toContain("POST");
+            done();
+        });
+    });
+
+});
