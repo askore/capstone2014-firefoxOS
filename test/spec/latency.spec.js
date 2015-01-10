@@ -74,6 +74,15 @@ describe('test average function', function(){
 	});
 });
 
+describe('increments id automatically', function(){
+   it('should be greater than 1 after first request', function(done){
+        AL.getNextID(function(id){
+            expect(id).toBe(2); //next id after first request
+            done();
+       });
+   }); 
+});
+
 
 
 
