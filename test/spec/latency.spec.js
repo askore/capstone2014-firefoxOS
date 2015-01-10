@@ -42,3 +42,47 @@ describe('keeps a history of requests', function(){
 		});
 	});
 });
+
+describe('test average function', function(){
+	it('should have a non-zero average', function(done){
+		AL.getAverages(0, Date.now(), function(average){
+			expect(average).toBeGreaterThan(0);
+			done();
+		});
+	});
+	
+	it('should have the correct average', function(done){
+		AL.ajax('https://developer.mozilla.org/search.json?q=cats',{cats: 'infinitey'}, function(){
+			var now = Date.now();
+			AL.getAverages(0, now, function(average){
+				AL.getHistory(function(data){
+					var total = 0, count = 0;
+					for(var i = 0, dlength = data.length; i < dlength; ++i) {
+						if(0 < data[i].begin && now > data[i].end) {
+							++count;
+							total += (data[i].end - data[i].begin);
+						}
+					}
+					if(count !== 0) {
+						var testaverage = total / count;
+					}
+					expect(average).toEqual(testaverage);
+					done();
+				});
+			});
+		});
+	});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
