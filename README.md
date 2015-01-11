@@ -14,6 +14,7 @@ dependency manager) and Karma (unit testing) allow for a pretty good
 combination for testing and developing code.  
 
 **Git for Windows**
+
 It is necessary to have git in Windows' PATH else you won't be able to install bower later. If you already have git in Windows' PATH or else aren't using Windows, you may skip until the Node.js section.
 
 Download Git (http://git-scm.com/download/win) 
