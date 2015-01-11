@@ -13,14 +13,13 @@ with grunt (a node task runner). These combined with bower (a
 dependency manager) and Karma (unit testing) allow for a pretty good  
 combination for testing and developing code.  
 
-**Git for Windows**
-
+#####Git for Windows
 It is necessary to have git in Windows' PATH else you won't be able to install bower later. If you already have git in Windows' PATH or else aren't using Windows, you may skip until the Node.js section.
 
 Download Git (http://git-scm.com/download/win) 
 Begin installing Git and during the install process select "Use Git from the Windows Command Prompts" which will put git in Windows' PATH
 
-**Node.js**  
+#####Node.js 
 Download nodeJS (http://nodejs.org/)  
 Open up the Node.js Command Prompt  
 Navigate to your local firefox-OS repo  
