@@ -79,7 +79,8 @@ Retrieve the timestamp of the last time a request was completed.
 `callback` will be called with the latest access timestamp or null.
 
 ##### Request History
-Retrieve the entire history of requests.
+Retrieve the history of requests.<br>
+A maximum of 10,000 requests will be logged. When the 10,001 request would be logged, the oldest entry will be removed first.
 
 `AL.getHistory(callback)`
 
