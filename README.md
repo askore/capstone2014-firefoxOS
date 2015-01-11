@@ -92,14 +92,24 @@ Each history object is of the form:
     begin: Timestamp,
     end: Timestamp,
     size: integer
+    origin: string
+    id: integer
 }
 ```
 
 `begin` is the timestamp of when the request was made.<br>
 `end` is the timestamp of when the request was finished.<br>
 `size` is the size of the request data (if any, if none, size is 0)
+`origin` is a string containing either "critical" or "non critical"
+`id` is a integer that increases every request starting at 1
 
 Entries are in chronological order (newest ones are last).
 
 `AL.getLatestAccessTimeStamp` is the same as calling `AL.getHistory`,
 getting the last entry and reading the `end` timestamp. 
+
+`AL.getNextID(callback)` returns an incremented number 1 higher then the id of the 
+last request
+
+`callback` will be called with an number one greater than the id of the last
+request or 1 if no history exists.
