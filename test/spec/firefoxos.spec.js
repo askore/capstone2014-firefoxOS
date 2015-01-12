@@ -97,6 +97,15 @@ describe('The latency is recorded', function() {
     });
 });
 
+describe('A non-critical request is added to the queue', function() {
+	it('should add an object to the queue', function(done){
+		AL.addNonCriticalRequest('https://developer.mozilla.org/search.json?q=cats', null, function (){});
+		var queue = AL.getPendingRequests();
+		expect(queue.length).toEqual(1);
+		done();
+	});
+});
+
 
 
 

@@ -73,6 +73,13 @@ The success function is passed 3 arguments:<br>
 `status` is the status code of the request (200, 404, etc)<br>
 `xhr` is the actual XMLHttpRequest object that was used to make the request<br>
 
+#### Non-critical AJAX Requests
+A non-critical request is added to a queue and waits until conditions are good enough to be fired. 
+
+```AL.addNonCriticalRequest(url, data, callback)```
+
+The parameters are the same as the AL.ajax method.
+
 #### Latency Recording and Analysis
 When the library is used for an AJAX request, information about the request is recorded
 for later analysis.
