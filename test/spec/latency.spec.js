@@ -42,3 +42,29 @@ describe('keeps a history of requests', function(){
 		});
 	});
 });
+
+describe('trims the history', function(){
+	it('should have no entry in the history', function(done){
+		AL.trimHistoryByDate(function(history){
+			if (localforage) {
+				expect(history).not.toBe(null);
+				expect(history.length).toBe(0);
+			} else {
+				expect(history).toBe(null);
+			}
+			done();
+		}, new Date(0), new Date(10));
+	});
+
+	it('should have an entry in the history', function(done){
+		AL.trimHistoryByDate(function(history){
+			if (localforage) {
+				expect(history).not.toBe(null);
+				expect(history.length).toBeGreaterThan(0);
+			} else {
+				expect(history).toBe(null);
+			}
+			done();
+		}, new Date(0), new Date());
+	});
+});
