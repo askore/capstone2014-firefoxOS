@@ -28,6 +28,17 @@ describe('work with last access time stamp', function () {
 			done();
 		});
 	});
+	
+	it('should not change last access if the request failed', function(done){
+		AL.getLatestAccessTimeStamp(function(firsttimestamp){
+			AL.ajax('example.com', {cats: 'infinitey'}, function () {
+				AL.getLatestAccessTimeStamp(function(secondtimestamp){
+					expect(firsttimestamp).toEqual(secondtimestamp);
+					done();
+				});
+			});
+		});
+	});
 });
 
 describe('keeps a history of requests', function () {
