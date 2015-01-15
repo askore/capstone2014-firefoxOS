@@ -48,6 +48,15 @@ The "lib" folder will hold our API prototypes
 The "test/spec" folder will hold our tests files  
 
 
+
+Testing App
+======================
+
+A Firefox OS app for testing the battery performance of using the API. Load it into the firefox webIDE, and run it.
+Make sure you run "grunt build" before running it, because it relies on dist/firefoxos.js.
+
+
+
 API Usage
 ======================
 

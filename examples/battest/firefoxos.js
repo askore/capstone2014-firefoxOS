@@ -1,1 +1,1 @@
-../../lib/firefoxos.js
+../../dist/firefoxos.js
