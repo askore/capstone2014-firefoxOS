@@ -135,3 +135,14 @@ last request
 
 `callback` will be called with an number one greater than the id of the last
 request or 1 if no history exists.
+
+##### Request History Within a Given Timeframe
+Retrieve only entries in the history whose `end` falls within a certain range
+
+`AL.trimHistoryByDate(callback, startDate, endDate)`
+
+`callback` will be called with an array of objects representing all requests sent within the specified range.
+
+`startDate` is a Javascript Date object representing the start of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `startDate` object will NOT be included in the returned history.
+
+`endDate` is a Javascript Date object representing the end of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `endDate` object will NOT be included in the returned history.
