@@ -12,7 +12,7 @@
 
 module.exports = function (grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 	var config = {
 		app: 'lib',
 		dist: 'dist'
@@ -64,9 +64,10 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-        exec: {
-            copy_file: {
-                command: (grunt.util.linefeed == "\n" ? "cp" : "copy") + " dist/firefoxos.js examples/battest/firefoxos.js"
+        copy: {
+            main: {
+                src: 'dist/firefoxos.js',
+                dest: 'examples/battest/firefoxos.js'
             }
         }
 	});
@@ -80,7 +81,7 @@ module.exports = function (grunt) {
 		'concat',
 		'uglify',
 		'karma:unit',
-        'exec:copy_file'
+        'copy:main'
 	]);
 
 	grunt.registerTask('default', [
