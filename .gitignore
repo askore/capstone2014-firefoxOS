@@ -1,3 +1,8 @@
+# specific to our build #
+#########################
+C:\\nppdf32Log\\debuglog.txt
+examples/battest/firefoxos.js
+
 # package managers #
 ####################
 node_modules/
