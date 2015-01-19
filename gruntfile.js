@@ -66,7 +66,7 @@ module.exports = function (grunt) {
 		},
         exec: {
             copy_file: {
-                command: "cp dist/firefoxos.js examples/battest/firefoxos.js"
+                command: (grunt.util.linefeed == "\n" ? "cp" : "copy") + " dist/firefoxos.js examples/battest/firefoxos.js"
             }
         }
 	});
