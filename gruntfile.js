@@ -12,6 +12,7 @@
 
 module.exports = function (grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('grunt-exec');
 	var config = {
 		app: 'lib',
 		dist: 'dist'
@@ -62,7 +63,12 @@ module.exports = function (grunt) {
 					]
 				}
 			}
-		}
+		},
+        exec: {
+            copy_file: {
+                command: "cp dist/firefoxos.js examples/battest/firefoxos.js"
+            }
+        }
 	});
 
 	grunt.registerTask('test', [
@@ -73,7 +79,8 @@ module.exports = function (grunt) {
 		'clean',
 		'concat',
 		'uglify',
-		'karma:unit'
+		'karma:unit',
+        'exec:copy_file'
 	]);
 
 	grunt.registerTask('default', [
