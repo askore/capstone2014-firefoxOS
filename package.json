@@ -11,6 +11,7 @@
     "grunt-complexity": "*",
     "grunt-contrib-uglify": "*",
     "grunt-karma": "*",
+    "grunt-contrib-copy": "*",
     "jshint-stylish": "^0.4.0",
     "karma": "^0.12.16",
     "karma-chrome-launcher": "^0.1.3",
