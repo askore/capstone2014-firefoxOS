@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
   console.log("Hello World!");
-  document.getElementById('fireNetwork').onclick = fireNetwork;
+  document.getElementById('fireNetworkBtn').addEventListener('click', fireNetwork);
 });
 
 function fireNetwork(){
