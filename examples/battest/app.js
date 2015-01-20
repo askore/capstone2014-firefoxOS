@@ -4,5 +4,5 @@ window.addEventListener("load", function() {
 });
 
 function fireNetwork(){
-    console.log("Hello World!");
+  window.dispatchEvent(new Event('network-ready'));
 }
