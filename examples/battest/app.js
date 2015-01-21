@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
 });
 
 function fireNetwork(){
-  window.dispatchEvent(new Event('network-ready')); //this is not working, unsure why...
+  window.dispatchEvent(new Event('network-ready'));
 }
 
 function addNonCriticalRequest(){
