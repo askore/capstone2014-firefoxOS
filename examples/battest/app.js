@@ -1,5 +1,6 @@
 window.addEventListener('load', function () {
 	document.getElementById('fireNetworkBtn').addEventListener('click', fireNetwork);
+	document.getElementById('addNonCritReq').addEventListener('click', addNonCriticalRequest);
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
@@ -7,6 +8,11 @@ window.addEventListener('load', function () {
 
 function fireNetwork(){
   window.dispatchEvent(new Event('network-ready'));
+}
+
+function addNonCriticalRequest(){
+  var urlString = document.getElementById('requestURL');
+	AL.addNonCriticalRequest(urlString.value, null, function (){});
 }
 
 function updatePendingRequestCount() {
