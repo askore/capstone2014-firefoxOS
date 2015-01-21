@@ -4,6 +4,7 @@ window.addEventListener('load', function () {
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
+	setInterval(updateTotalRequests, 100);
 });
 
 function fireNetwork(){
@@ -19,5 +20,15 @@ function updatePendingRequestCount() {
 	var elem = document.getElementById('pendingRequestCount');
 	if (elem) {
 		elem.innerHTML = AL.getPendingRequests().length;
+	}
+}
+
+function updateTotalRequests() {
+	var elem = document.getElementById('totalRequestCount');
+	if (elem) {
+		AL.getNextID(function(ID){
+			elem.innerHTML = ID -1;	
+		});
+		
 	}
 }
