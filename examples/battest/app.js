@@ -2,6 +2,7 @@ window.addEventListener('load', function () {
 	document.getElementById('fireNetworkBtn').addEventListener('click', fireNetwork);
 	document.getElementById('addNonCritReq').addEventListener('click', addNonCriticalRequest);
 	window.addEventListener('network-ready', updatePendingRequestCount);
+	document.getElementById('clearHistory').addEventListener('click', clearHistory);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
 	setInterval(updateTotalRequests, 100);
@@ -31,4 +32,8 @@ function updateTotalRequests() {
 		});
 		
 	}
+}
+
+function clearHistory(){
+	localforage.clear();
 }
