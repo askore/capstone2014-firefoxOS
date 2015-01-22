@@ -24,12 +24,16 @@
 		<h1>Hello World</h1>
 		<div>
 			Pending requests: <span id="pendingRequestCount"></span><br />
+			Total requests made (historical): <span id="totalRequestCount"></span><br />
 			Request URL: <br />
 			<input type="text" id="requestURL" size=45 value="https://developer.mozilla.org/search.json?q=cats"><br />
 			<button id="addNonCritReq">Add non-critical request</button>
 		</div>
 		<div>
 			<button id="fireNetworkBtn">Network is ready</button>
+		</div>
+		<div>
+			<button id="clearHistory">Clear history</button>
 		</div>
 	</body>
 
