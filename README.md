@@ -41,11 +41,24 @@ The build task will recompile the library and run the tests. If you've updated t
 
 You'll see a bunch of tests get run and pass.  
 
-**NetBeans**  
+#####NetBeans
+######Downloading and Loading Project  
 Download NetBeans from https://netbeans.org/downloads/  
 Open NetBeans, create a "New Project", then select "HTML5 Application with Existing Sources"  
 The "lib" folder will hold our API prototypes  
-The "test/spec" folder will hold our tests files  
+The "test/spec" folder will hold our tests files
+
+######Setting Up Tabbing Standards
+1. Within NetBeans, select 'Tools' and then 'Options'
+2. Select the 'Editor' icon at the top followed by the 'Formatting' tab
+3. Set the 'Language:' tab to 'All Languages'
+4. Make sure 'Expand Tabs to Spaces' is unchecked
+5. Set 'Tab Size:' to 4
+6. Save settings by clicking 'OK'
+
+![Tabbing Standard](https://cloud.githubusercontent.com/assets/3056597/5869687/cb0882dc-a271-11e4-8464-d817ad645efa.png)
+
+
 
 
 
