@@ -42,7 +42,7 @@ The build task will recompile the library and run the tests. If you've updated t
 You'll see a bunch of tests get run and pass.  
 
 #####NetBeans
-######Downloading and Loading Project  
+######Downloading NetBeans and Loading Project  
 Download NetBeans from https://netbeans.org/downloads/  
 Open NetBeans, create a "New Project", then select "HTML5 Application with Existing Sources"  
 The "lib" folder will hold our API prototypes  
