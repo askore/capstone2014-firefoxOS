@@ -1,6 +1,7 @@
 window.addEventListener('load', function () {
 	document.getElementById('fireNetworkBtn').addEventListener('click', fireNetwork);
 	document.getElementById('addNonCritReq').addEventListener('click', addNonCriticalRequest);
+	document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequest);
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	document.getElementById('clearHistory').addEventListener('click', clearHistory);
 	updatePendingRequestCount();
@@ -17,6 +18,11 @@ function addNonCriticalRequest(){
 	AL.addNonCriticalRequest(urlString.value, null, function (){});
 }
 
+function fireCriticalRequest(){
+  var urlString = document.getElementById('fireCriticalReq');
+	AL.ajax(urlString.value, null, function (){});
+}	
+
 function updatePendingRequestCount() {
 	var elem = document.getElementById('pendingRequestCount');
 	if (elem) {
@@ -29,8 +35,7 @@ function updateTotalRequests() {
 	if (elem) {
 		AL.getNextID(function(ID){
 			elem.innerHTML = ID -1;	
-		});
-		
+		});		
 	}
 }
 
