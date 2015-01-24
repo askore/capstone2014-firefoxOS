@@ -4,6 +4,8 @@ window.addEventListener('load', function () {
 	document.getElementById('displayRecords').addEventListener('click', getRecords);
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	document.getElementById('clearHistory').addEventListener('click', clearHistory);
+	document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequest);
+	setInterval(updateChargingStatus, 100);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
 	setInterval(updateTotalRequests, 100);
@@ -16,6 +18,18 @@ function fireNetwork(){
 function addNonCriticalRequest(){
   var urlString = document.getElementById('requestURL');
 	AL.addNonCriticalRequest(urlString.value, null, function (){});
+}
+
+function updateChargingStatus() {
+	var elem = document.getElementById('isCharging');
+	if (elem) {
+			elem.innerHTML = navigator.battery.charging;
+	}
+}
+
+function fireCriticalRequest(){
+  var urlString = document.getElementById('fireCriticalReq');
+	AL.ajax(urlString.value, null, function (){});
 }
 
 function updatePendingRequestCount() {
