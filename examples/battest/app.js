@@ -52,7 +52,7 @@ function fireCriticalRequestHandler(){
 	if (interval == 0){
 		fireCriticalRequest();
 	} else {
-		alert('interval = ' + interval * 60 * 1000)
+		//alert('interval = ' + interval * 60 * 1000)
 		setInterval(fireCriticalRequest, interval * 60 * 1000);
 	}
 }
