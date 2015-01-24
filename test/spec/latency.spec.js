@@ -159,7 +159,11 @@ describe('multiple concurrent requests are handled appropriately', function(){
 	it('should not number history entires incorrectly', function(done){
 		AL.getNextID(function(id){
 			AL.getHistory(function(history){
-				expect(id).toEqual(history.length + 1);
+				if (history) {
+					expect(id).toEqual(history.length + 1);
+				} else {
+					expect(id).toEqual(1);
+				}
 				done();
 			});
 		});

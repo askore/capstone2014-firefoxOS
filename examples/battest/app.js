@@ -23,7 +23,7 @@ function addNonCriticalRequest(){
 function updateChargingStatus() {
 	var elem = document.getElementById('isCharging');
 	if (elem) {
-			elem.innerHTML = navigator.battery.charging;
+		elem.innerHTML = navigator.battery.charging;
 	}
 }
 
@@ -87,5 +87,5 @@ function getRecords(){
 
 
 function clearHistory(){
-	localforage.clear();
+	AL.clearHistory();
 }
