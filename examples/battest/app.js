@@ -11,55 +11,54 @@ window.addEventListener('load', function () {
 	setInterval(updateTotalRequests, 100);
 });
 
-function fireNetwork(){
-  window.dispatchEvent(new Event('network-ready'));
+function fireNetwork() {
+	window.dispatchEvent(new Event('network-ready'));
 }
 
-function addNonCriticalRequestHandler(){
-  var urlString = document.getElementById('requestURL');
+function addNonCriticalRequestHandler() {
 	var interval = document.getElementById('nonCritInterval').value;
 	var totalTime = document.getElementById('nonCritIntervalLength').value;
-	
-	if (interval == 0){
-		//alert(interval);
+
+	if (+interval === 0) {
 		addNonCriticalRequest();
 	} else {
 		var startTime = new Date().getTime();
-		var interval = setInterval(function(){
-    	if(new Date().getTime() - startTime > totalTime * 60 * 1000){
-        clearInterval(interval);
-        return;
-    	}
-    	addNonCriticalRequest();
+		var interval = setInterval(function () {
+			if (new Date().getTime() - startTime > totalTime * 60 * 1000) {
+				clearInterval(interval);
+				return;
+			}
+			addNonCriticalRequest();
 		}, interval * 1000);
 	}
 }
 
-function addNonCriticalRequest(){
-  var urlString = document.getElementById('requestURL');
-	AL.addNonCriticalRequest(urlString.value, null, function (){});
+function addNonCriticalRequest() {
+	var urlString = document.getElementById('requestURL');
+	AL.addNonCriticalRequest(urlString.value, null, function () {
+	});
 }
 
 function updateChargingStatus() {
 	var elem = document.getElementById('isCharging');
 	if (elem) {
-			elem.innerHTML = navigator.battery.charging;
+		elem.innerHTML = navigator.battery.charging;
 	}
 }
 
-function fireCriticalRequestHandler(){
-  var interval = document.getElementById('critInterval').value;
-	if (interval == 0){
+function fireCriticalRequestHandler() {
+	var interval = document.getElementById('critInterval').value;
+	if (+interval === 0) {
 		fireCriticalRequest();
 	} else {
-		//alert('interval = ' + interval * 60 * 1000)
 		setInterval(fireCriticalRequest, interval * 60 * 1000);
 	}
 }
 
-function fireCriticalRequest(){
-  var urlString = document.getElementById('requestURL');
-	AL.ajax(urlString.value, null, function (){});
+function fireCriticalRequest() {
+	var urlString = document.getElementById('requestURL');
+	AL.ajax(urlString.value, null, function () {
+	});
 }
 
 function updatePendingRequestCount() {
@@ -72,16 +71,16 @@ function updatePendingRequestCount() {
 function updateTotalRequests() {
 	var elem = document.getElementById('totalRequestCount');
 	if (elem) {
-		AL.getNextID(function(ID){
-			elem.innerHTML = ID -1;	
+		AL.getNextID(function (ID) {
+			elem.innerHTML = ID - 1;
 		});
-		
+
 	}
 }
 
-function getRecords(){
-  var elem = document.getElementById('recordsList');
-	var history = AL.getHistory(function(records){
+function getRecords() {
+	var elem = document.getElementById('recordsList');
+	AL.getHistory(function (records) {
 		function requestObject(begin, end, size, origin, id) {
 			this.begin = begin;
 			this.end = end;
@@ -100,10 +99,10 @@ function getRecords(){
 			new requestObject(Date.now(), Date.now(), 5, "1", 1),
 			new requestObject(Date.now(), Date.now(), 5, "1", 1)
 		];
-		if(records) {
+		if (records) {
 			var counter = 0;
 			var string = [];
-			for(var i = Math.max(records.length-5, 0); i < Math.max(records.length, 0); ++i) {
+			for (var i = Math.max(records.length - 5, 0); i < Math.max(records.length, 0); ++i) {
 				string[counter] = records[i].begin - records[i].end;
 				++counter;
 			}
@@ -116,6 +115,6 @@ function getRecords(){
 }
 
 
-function clearHistory(){
+function clearHistory() {
 	localforage.clear();
 }
