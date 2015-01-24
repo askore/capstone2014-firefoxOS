@@ -1,10 +1,10 @@
 window.addEventListener('load', function () {
 	document.getElementById('fireNetworkBtn').addEventListener('click', fireNetwork);
-	document.getElementById('addNonCritReq').addEventListener('click', addNonCriticalRequest);
+	document.getElementById('addNonCritReq').addEventListener('click', addNonCriticalRequestHandler);
 	document.getElementById('displayRecords').addEventListener('click', getRecords);
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	document.getElementById('clearHistory').addEventListener('click', clearHistory);
-	document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequest);
+	document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequestHandler);
 	setInterval(updateChargingStatus, 100);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
@@ -13,6 +13,26 @@ window.addEventListener('load', function () {
 
 function fireNetwork(){
   window.dispatchEvent(new Event('network-ready'));
+}
+
+function addNonCriticalRequestHandler(){
+  var urlString = document.getElementById('requestURL');
+	var interval = document.getElementById('nonCritInterval').value;
+	var totalTime = document.getElementById('nonCritIntervalLength').value;
+	
+	if (interval == 0){
+		//alert(interval);
+		addNonCriticalRequest();
+	} else {
+		var startTime = new Date().getTime();
+		var interval = setInterval(function(){
+    	if(new Date().getTime() - startTime > totalTime * 60 * 1000){
+        clearInterval(interval);
+        return;
+    	}
+    	addNonCriticalRequest();
+		}, interval * 1000);
+	}
 }
 
 function addNonCriticalRequest(){
@@ -27,8 +47,18 @@ function updateChargingStatus() {
 	}
 }
 
+function fireCriticalRequestHandler(){
+  var interval = document.getElementById('critInterval').value;
+	if (interval == 0){
+		fireCriticalRequest();
+	} else {
+		//alert('interval = ' + interval * 60 * 1000)
+		setInterval(fireCriticalRequest, interval * 60 * 1000);
+	}
+}
+
 function fireCriticalRequest(){
-  var urlString = document.getElementById('fireCriticalReq');
+  var urlString = document.getElementById('requestURL');
 	AL.ajax(urlString.value, null, function (){});
 }
 
