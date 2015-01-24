@@ -4,17 +4,15 @@
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
+afterEach(function (done) {
+	AL.clearHistory(done);
+});
+
 describe('work with last access time stamp', function () {
 	beforeEach(function (done) {
 		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
-	});
-
-	afterEach(function (done) {
-		if (localforage) {
-			localforage.clear(done);
-		}
 	});
 
 	it('should keep last access timestamp or fail gracefully', function (done) {
@@ -48,12 +46,6 @@ describe('keeps a history of requests', function () {
 		});
 	});
 
-	afterEach(function (done) {
-		if (localforage) {
-			localforage.clear(done);
-		}
-	});
-
 	it('should have an entry in the history', function (done) {
 		AL.getHistory(function (history) {
 			if (localforage) {
@@ -72,12 +64,6 @@ describe('test average function', function () {
 		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
-	});
-
-	afterEach(function (done) {
-		if (localforage) {
-			localforage.clear(done);
-		}
 	});
 
 	it('should have a non-zero average', function (done) {
@@ -117,12 +103,6 @@ describe('increments id automatically', function () {
 		});
 	});
 
-	afterEach(function (done) {
-		if (localforage) {
-			localforage.clear(done);
-		}
-	});
-
 	it('should be greater than 1 after first request', function (done) {
 		AL.getNextID(function (id) {
 			expect(id).toBe(2); //next id after first request
@@ -157,4 +137,39 @@ describe('trims the history', function () {
 			}, new Date(0), new Date());
 		});
 	});
+});
+
+describe('multiple concurrent requests are handled appropriately', function(){
+	var requestCount = 100, originalTimeout;
+	
+	beforeEach(function(done) {
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+		if (localforage) {
+			localforage.clear(done);
+		}
+    });
+	
+	for(var x = 0; x < requestCount; ++x) {
+		beforeEach(function(done){
+			AL.ajax('https://rocky-lake-3451.herokuapp.com/', done);
+		});
+	}
+	
+	it('should not number history entires incorrectly', function(done){
+		AL.getNextID(function(id){
+			AL.getHistory(function(history){
+				if (history) {
+					expect(id).toEqual(history.length + 1);
+				} else {
+					expect(id).toEqual(1);
+				}
+				done();
+			});
+		});
+	});
+	
+	afterEach(function() {
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
 });

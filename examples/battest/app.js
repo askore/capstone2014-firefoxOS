@@ -116,5 +116,5 @@ function getRecords() {
 
 
 function clearHistory() {
-	localforage.clear();
+	AL.clearHistory();
 }

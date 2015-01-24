@@ -4,12 +4,11 @@
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
+afterEach(function (done) {
+	AL.clearHistory(done);
+});
+
 describe('tests non-critical requests are fired', function () {
-	afterEach(function (done) {
-		if (localforage) {
-			localforage.clear(done);
-		}
-	});
 
 	it('should fire non-criticals and return a history size of 2', function (done) {
 		AL.addNonCriticalRequest('https://developer.mozilla.org/search.json?q=dogs', {dogs: 'infinity'}, function (result, status, xhr) {
