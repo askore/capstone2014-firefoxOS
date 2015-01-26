@@ -20,14 +20,14 @@ describe('base api function', function () {
 	});
 
 	it('should return nothing', function () {
-		var result = AL.ajax('http://mozilla.org');
+		var result = AL.ajax('https://rocky-lake-3451.herokuapp.com');
 		expect(result).toBeUndefined();
 	});
 });
 
 describe('makes async requests', function () {
 	it('should return something', function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com', null, function (result, status, xhr) {
 			expect(result).not.toBeUndefined();
 			expect(status).toBe(200);
 			done();
@@ -35,7 +35,7 @@ describe('makes async requests', function () {
 	});
 
 	it('should return results matching what we are requesting', function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', null, function (result, status, xhr) {
 			expect(result).toContain("cats");
 			expect(result).not.toContain("dogs");
 			done();
@@ -64,7 +64,7 @@ describe('makes bogus requests', function () {
 	});
 
 	it('should return 404 and "NOT FOUND"', function (done) {
-		AL.ajax('asdfahg.com', null, function (result, status, xhr) {
+		AL.ajax('example.com', null, function (result, status, xhr) {
 			expect(result).toBe('NOT FOUND');
 			expect(status).toBe(404);
 			done();
@@ -81,14 +81,14 @@ describe('make sure the event is fired when the request happens', function () {
 		};
 		window.addEventListener('network-ready', listener);
 
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', null, function (result, status, xhr) {
 		});
 	});
 });
 
 describe('The latency is recorded', function () {
 	it('is recorded', function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', null, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', null, function (result, status, xhr) {
 			AL.getLatestAccessTimeStamp(function (result) {
 				expect(result).not.toBeUndefined();
 				done();
@@ -99,8 +99,7 @@ describe('The latency is recorded', function () {
 
 describe('verify GET and POST are chosen appropriately', function () {
 	it('should be GET', function (done) {
-		// TODO: Personal URL should be replaced with Server-side URL when server side set up
-		AL.ajax('http://ryan52.info/test.php', null, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com', null, function (result, status, xhr) {
 			expect(result).toContain("GET");
 			done();
 		});
@@ -109,7 +108,7 @@ describe('verify GET and POST are chosen appropriately', function () {
 
 describe('A non-critical request is added to the queue', function () {
 	it('should add an object to the queue', function (done) {
-		AL.addNonCriticalRequest('https://developer.mozilla.org/search.json?q=cats', null, function () {
+		AL.addNonCriticalRequest('https://rocky-lake-3451.herokuapp.com?q=cats', null, function () {
 		});
 		var queue = AL.getPendingRequests();
 		expect(queue.length).toEqual(1);
