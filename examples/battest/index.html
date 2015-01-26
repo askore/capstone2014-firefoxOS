@@ -21,14 +21,14 @@
 
 	<body>
 		<!-- This code is in the public domain. Enjoy! -->
-		<h1>Hello World</h1>
+		<h3>Hello World</h3>
 		<div>
 			Pending requests: <span id="pendingRequestCount"></span><br />
 			Charging: <span id="isCharging"></span><br />
-			Total requests made (historical): <span id="totalRequestCount"></span><br />
+			Total requests made (historical): <span id="totalRequestCount"></span><br /><br />
 			Request URL: <br />
-			<input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br />
-			<button id="addNonCritReq">Add non-critical request</button><br /> 
+			<input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br /><br />
+			Number of non-critical requests to add:<input type="text" id="numNonCritReqAdd" value="1"> or add 1<br />
 			every: 
 			<select id="nonCritInterval">
 				<option value="0">Now</option>
@@ -44,9 +44,11 @@
 				<option value="5">5</option>
 				<option value="15">15</option>
 				<option value="30">30</option>
-			</select> minutes
+			</select> minutes<br />
+			<button id="addNonCritReq">Add non-critical request(s)</button><br /><br />
 		</div>
 		<div>
+			<input type="checkbox" id="autoAddNonCritCheck" checked = "true"><font size = "1">Auto-add specified non-critical request amount from above</font><br />
 			<button id="fireCriticalReq">Fire critical request</button><br />
 			every
 			<select id="critInterval">
@@ -61,7 +63,7 @@
 		</div>		
 		<div>
 			<button id="fireNetworkBtn">Network is ready</button>
-		</div>
+		</div><br />
 		<div>
 			<button id="clearHistory">Clear history</button>
 		</div>
