@@ -18,9 +18,12 @@ function fireNetwork() {
 function addNonCriticalRequestHandler() {
 	var interval = document.getElementById('nonCritInterval').value;
 	var totalTime = document.getElementById('nonCritIntervalLength').value;
+	var numAdd = document.getElementById('numNonCritReqAdd').value;
 
 	if (+interval === 0) {
-		addNonCriticalRequest();
+		for (var i = 0; i < numAdd; ++i) {
+			addNonCriticalRequest();			
+		}
 	} else {
 		var startTime = new Date().getTime();
 		var interval = setInterval(function () {
@@ -48,6 +51,15 @@ function updateChargingStatus() {
 
 function fireCriticalRequestHandler() {
 	var interval = document.getElementById('critInterval').value;
+	var addNonCritBefore = document.getElementById('autoAddNonCritCheck');
+	var numAdd = document.getElementById('numNonCritReqAdd').value;
+	
+	if (addNonCritBefore.checked === true) {
+		for (var i = 0; i < numAdd; ++i) {
+			addNonCriticalRequest();			
+		}
+	}
+	
 	if (+interval === 0) {
 		fireCriticalRequest();
 	} else {
