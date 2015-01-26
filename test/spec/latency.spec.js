@@ -145,9 +145,7 @@ describe('multiple concurrent requests are handled appropriately', function(){
 	beforeEach(function(done) {
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
-		if (localforage) {
-			localforage.clear(done);
-		}
+		AL.clearHistory(done);
     });
 	
 	for(var x = 0; x < requestCount; ++x) {
