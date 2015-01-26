@@ -10,7 +10,7 @@ afterEach(function (done) {
 
 describe('work with last access time stamp', function () {
 	beforeEach(function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
 	});
@@ -41,7 +41,7 @@ describe('work with last access time stamp', function () {
 
 describe('keeps a history of requests', function () {
 	beforeEach(function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
 	});
@@ -61,7 +61,7 @@ describe('keeps a history of requests', function () {
 
 describe('test average function', function () {
 	beforeEach(function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
 	});
@@ -74,7 +74,7 @@ describe('test average function', function () {
 	});
 
 	it('should have the correct average', function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
 			var now = Date.now();
 			AL.getAverageLatency(0, now, function (average) {
 				AL.getHistory(function (data) {
@@ -98,7 +98,7 @@ describe('test average function', function () {
 
 describe('increments id automatically', function () {
 	beforeEach(function (done) {
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinitey'}, function () {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
 			done();
 		});
 	});

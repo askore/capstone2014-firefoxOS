@@ -11,7 +11,7 @@ afterEach(function (done) {
 describe('tests non-critical requests are fired', function () {
 
 	it('should fire non-criticals and return a history size of 2', function (done) {
-		AL.addNonCriticalRequest('https://developer.mozilla.org/search.json?q=dogs', {dogs: 'infinity'}, function (result, status, xhr) {
+		AL.addNonCriticalRequest('https://rocky-lake-3451.herokuapp.com?q=dogs', {dogs: 'infinity'}, function (result, status, xhr) {
 			expect(result).not.toBe(null);
 			AL.getHistory(function (history) {
 				if (localforage) {
@@ -23,7 +23,7 @@ describe('tests non-critical requests are fired', function () {
 			});
 			done();
 		});
-		AL.ajax('https://developer.mozilla.org/search.json?q=cats', {cats: 'infinity'}, function (result, status, xhr) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinity'}, function (result, status, xhr) {
 			expect(result).not.toBe(null);
 			AL.getHistory(function (history) {
 				if (localforage) {
