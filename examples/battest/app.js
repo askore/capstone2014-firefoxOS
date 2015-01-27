@@ -11,6 +11,14 @@ window.addEventListener('load', function () {
 	setInterval(updateTotalRequests, 100);
 });
 
+var onChrome;
+
+if (navigator.battery) {
+	onChrome = false;
+} else {
+	onChrome = true;
+}
+
 function fireNetwork() {
 	window.dispatchEvent(new Event('network-ready'));
 }
@@ -45,7 +53,13 @@ function addNonCriticalRequest() {
 function updateChargingStatus() {
 	var elem = document.getElementById('isCharging');
 	if (elem) {
-		elem.innerHTML = navigator.battery.charging;
+		if (!onChrome) {
+			elem.innerHTML = navigator.battery.charging;
+		} else {
+			navigator.getBattery().then(function (battery) {
+				elem.innerHTML = battery.charging;
+			})
+		}
 	}
 }
 
