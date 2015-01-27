@@ -146,7 +146,7 @@ describe('multiple concurrent requests are handled appropriately', function(){
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
 		AL.clearHistory(done);
-    });
+	});
 	
 	for(var x = 0; x < requestCount; ++x) {
 		beforeEach(function(done){
@@ -169,5 +169,5 @@ describe('multiple concurrent requests are handled appropriately', function(){
 	
 	afterEach(function() {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-    });
+	});
 });
