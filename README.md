@@ -159,3 +159,62 @@ Retrieve only entries in the history whose `end` falls within a certain range
 `startDate` is a Javascript Date object representing the start of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `startDate` object will NOT be included in the returned history.
 
 `endDate` is a Javascript Date object representing the end of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `endDate` object will NOT be included in the returned history.
+
+Deploying the BatTest Application to a phone
+======================
+1. Make sure the battery harness is not connected. Connect the phone to your computer via USB.
+2. Power the phone on. It should ask "An incoming request to permit remote debugging connection was detected. Allow connection?". Select "OK".
+3. Go to "Project" -> "Open Packaged App" and select the folder of the BatTest App.
+4. Click on "Select Runtime" then "Firefox OS" under "USB Devices"
+5. Go to "Project" -> "Install and Run" or CRTL+R to push the app to the phone. 
+
+
+Setting Up Environment For Battery Harness Testing
+======================
+1. Install VirtualBox and open it up from here: https://www.virtualbox.org/  
+2. Click the "New" button to start the wizard to create a new virtual machine  
+3. Enter a name like "FxPowertool" and choose "Linux", "Debian" for the OS  
+4. Give it a reasonable amount of RAM for your box, like 1GB if you can  
+5. For the start up disk, plug in the USB drive and select the HD.vdi file  
+6. Click Create to create the VM for the first time. The VM is now saved.  
+7. Click Settings next to the created VM and go to the Serial Ports tab.  
+
+##### If you are on a Linux Host
+Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and for the "Port/File Path" enter in /dev/ttyACM0.    
+
+##### If you are on a Windows Host
+1. Uncheck the "Enable Serial Port" option.
+2. Select the USB tab check both "Enable USB Controller" and "Enable USB 2.0 (EHCI) Controller". It may prompt you to install the VirtualBox Extension Pack. If so download it here: https://www.virtualbox.org/wiki/Downloads
+
+##### Making use of the VM from the USB stick  
+
+1. If VirtualBox cannot detect the battery harness, unplug the USB and plug it back in. 
+2. Once you get it connected to the computer turn the ammeter and it on.  
+3. Select the VM that you have created previously and choose the Start option.  
+4. When prompted for a login, enter "capstone" with the password as "firefox".  
+5. Use Leafpad to create some file like "tests.json" and add the following:  
+
+```javascript
+{
+  "title": "My Test Cases",
+  "tests": [
+    "My first test" 
+  ]
+}
+```
+
+*If you are on windows, you will need to do a USB pass-through, otherwise skip these steps*  
++ In VirtualBox, select "Devices" then "USB Devices"   
++ Select "Dean Camera LUFA USB-RS232 Adapter[0001]". If you do not see this option, unplug the USB and plug it back in.  
+
+Open a LXTerminal and run the following to execute your series of test(s):  
+
+```
+sudo powertool -d mozilla -p /dev/ttyS0 -u tk -s current -f
+Desktop/tests.json -o Desktop/tests.csv
+```
+
+*If you are on windows, replace ttyS0 with ttyACM0 in the command above*
+
+Click Start to begin testing power. You can also switch to the next test.
+Note that the powertool as it was ran above saves collected data to CSV.
