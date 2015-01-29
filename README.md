@@ -204,7 +204,7 @@ Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and
 ```
 
 *If you are on windows, you will need to do a USB pass-through, otherwise skip this step*  
-1. In VirtualBox, select "Devices" then "USB Devices"
+1. In VirtualBox, select "Devices" then "USB Devices"  
 2. Select "Dean Camera LUFA USB-RS232 Adapter[0001]". If you do not see this option, unplug the USB and plug it back in. 
 
 Open a LXTerminal and run the following to execute your series of test(s):  
