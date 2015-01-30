@@ -10,10 +10,9 @@ install:
  - npm install
  - bower install
  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
- - wget https://www.dropbox.com/s/nqa1g7me6isol92/nightwatch.json?dl=0
  - sed -i s#.url.*#.url\(\'$PWD.html\'\)#g examples/tests/test.js
 before_script:
  - xvfb-run grunt build
 script:
  - xvfb-run grunt test
- - xvfb-run nightwatch examples/tests/test.js
+ - nightwatch examples/tests/test.js
