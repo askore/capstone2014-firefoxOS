@@ -3,12 +3,17 @@ node_js:
   - "0.10"
 before_install:
  - npm install -g grunt-cli bower
+ - npm install -g nightwatch
  - sudo apt-get update
  - sudo apt-get install -y firefox
 install: 
  - npm install
  - bower install
+ - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
+ - echo '{"src_folders" : ["examples/tests"],  "output_folder" :"examples/tests/reports",  "custom_commands_path" : "",  "custom_assertions_path" : "",  "globals_path" : "",  "selenium" : {    "start_process" : true,    "server_path" : "selenium-server-standalone-2.44.0.jar",    "log_path" : "",    "host" : "127.0.0.1",    "port" : 4444,    "cli_args" : {      "webdriver.chrome.driver" : "",      "webdriver.ie.driver" : ""    }    },  "test_settings" : {    "default" : {      "launch_url" : "http://localhost",      "selenium_port"  : 4444,      "selenium_host"  : "localhost",      "silent": true,      "screenshots" : {        "enabled" : false,        "path" : ""      },      "desiredCapabilities": {        "browserName": "firefox",        "javascriptEnabled": true,        "acceptSslCerts": true      }    },    "chrome" : {      "desiredCapabilities": {        "browserName": "chrome",        "javascriptEnabled": true,        "acceptSslCerts": true      }    }  }}' > nightwatch.json
+ - sed -i s#.url.*#.url\(\'$PWD.html\'\)#g examples/tests/test.js
 before_script:
  - xvfb-run grunt build
 script:
  - xvfb-run grunt test
+ - xvfb-run nightwatch examples/tests/test.js
