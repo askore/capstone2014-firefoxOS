@@ -52,6 +52,9 @@ The "test/spec" folder will hold our tests files
 
 ![Tabbing Standard](https://cloud.githubusercontent.com/assets/3056597/5869687/cb0882dc-a271-11e4-8464-d817ad645efa.png)
 
+##### Tabbing Standards
+Use double tabbing for indentation of code (e.g. body of a loop or function) inside files contained both in the "lib" and "test/spec" directories.
+
 Deploying and Testing BatTest Demo App
 ======================
 
@@ -63,7 +66,8 @@ Deploying and Testing BatTest Demo App
 4. Go to "Project" -> "Open Packaged App", navigate to and select the "battest" folder, and click "Select Folder"
 5. Click on "Select Runtime" then "Install Simulator"
 6. Install the most recent stable version of the Firefox OS Simulator (at time of writing, 2.0)
-7. Click on "Select Runtime" then the most recent stable version of the Firefox OS Simulator under "SIMULATORS"
+7. Click on "Select Runtime", then click the most recent stable version of the Firefox OS Simulator under "SIMULATORS"
+8. Click the "Install and Run" button or CRTL+R to push the app to the phone 
 
 ##### Physical Phone
 1. Make sure the battery harness is not connected. Connect the phone to your computer via USB.
@@ -85,7 +89,7 @@ Deploying and Testing BatTest Demo App
 	* `speed` is the connection speed in bytes/second
 	* `concurrency` is the number of concurrent outbound connections allowed
 	* `drop-frequency` is how often should bytes be dropped (`byte count` % `drop frequency`)
-	  * Due to the definition of `drop-frequency` not being clear, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
+	  * Due to the definition of `drop-frequency` not being clear, and thus how to use it, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
 
 ##### Setting Up Environment For Battery Harness Testing
 1. Install VirtualBox and open it up from here: https://www.virtualbox.org/  
