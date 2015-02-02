@@ -12,8 +12,8 @@ install:
  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
  - sed -i s#.url.*#.url\(\'$PWD.html\'\)#g examples/tests/test.js
 before_script:
- - java -jar selenium-server-standalone-2.44.0.jar &
  - xvfb-run grunt build
 script:
  - xvfb-run grunt test
+ - xvfb-run java -jar selenium-server-standalone-2.44.0.jar &
  - xvfb-rub nightwatch examples/tests/test.js
