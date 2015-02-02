@@ -12,7 +12,7 @@ install:
  - bower install
  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
  - wget https://www.dropbox.com/s/zjj67zxlq510pwy/sftpx?dl=0
- - chmod +x sftpx
+ - sudo chmod +x sftpx
 before_script:
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
