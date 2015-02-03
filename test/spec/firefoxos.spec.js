@@ -70,6 +70,15 @@ describe('makes bogus requests', function () {
 			done();
 		});
 	});
+	
+	it('should handle an invalid URL gracefully', function(done){
+		AL.addNonCriticalRequest('wfeiojwfe<<', null, function(result, status, xhr){
+			expect(result).toBe('NOT FOUND');
+			expect(status).toBe(404);
+			done();
+		});
+		AL.ajax('https://rocky-lake-3451.herokuapp.com');
+	});
 });
 
 describe('make sure the event is fired when the request happens', function () {
