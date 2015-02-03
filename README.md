@@ -35,6 +35,17 @@ The build task will recompile the library and run the tests. If you've updated t
 
 You'll see a bunch of tests get run and pass.  
 
+#### Nightwatch
+Nightwatch (http://nightwatchjs.org/) is used as the E2E testing solution for the example application provided with the library. To install Nightwatch:
+
+`npm install -g nightwatch`
+
+Selenium (https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar) is also needed to run the Nightwatch tests. The included configuration file will automatically start Selenium when the tests are run.
+
+Due to limitations with Selenium and local files on Travis, the tests are currently set to use a version of the app hosted on an Amazon EC2 instance. You should change the tests.js file to use the index.html file on your local machine. Alternatively, you can host the app on your own server and direct the test.js file to use that address instead. You should not assume that the provided webhost will be available.
+
+Use `nightwatch -t examples/tests/test.js` to run the tests
+
 #### NetBeans
 ##### Downloading NetBeans and Loading Project  
 Download NetBeans from https://netbeans.org/downloads/  
