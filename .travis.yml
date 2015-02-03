@@ -11,8 +11,7 @@ install:
  - npm install
  - bower install
  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
- - wget https://www.dropbox.com/s/f0t36562u02pvhx/sftpx.sh?dl=0
- - ls -l
+ - wget https://www.dropbox.com/s/f0t36562u02pvhx/sftpx.sh
  - sudo chmod +x ./sftpx.sh
 before_script:
  - export DISPLAY=:99.0
