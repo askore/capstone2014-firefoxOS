@@ -11,16 +11,16 @@ install:
  - npm install
  - bower install
  - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
- - wget https://www.dropbox.com/s/zjj67zxlq510pwy/sftpx?dl=0
- - sudo chmod +x sftpx
+ - wget https://www.dropbox.com/s/f0t36562u02pvhx/sftpx.sh?dl=0
+ - sudo chmod +x sftpx.sh
 before_script:
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
  - sleep 3
  - grunt build
- - ./sftpx capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/firefoxos.js firefoxos.js
- - ./sftpx capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/app.js app.js
- - ./sftpx capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/index.html index.html
+ - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/firefoxos.js firefoxos.js
+ - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/app.js app.js
+ - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/index.html index.html
 script:
  - grunt test
  - nightwatch examples/tests/test.js
