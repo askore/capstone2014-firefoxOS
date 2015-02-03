@@ -124,6 +124,19 @@ Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and
 }
 ```
 
+*If you want to run multiple tests and save them to one CSV file, the JSON will look like this*
+
+```javascript
+{
+  "title": "My Test Cases",
+  "tests": [
+    "My first test",
+	"My second test",
+	"My third test"
+  ]
+}
+```
+
 *If you are on windows, you will need to do a USB pass-through, otherwise skip these steps*  
 + In VirtualBox, select "Devices" then "USB Devices"   
 + Select "Dean Camera LUFA USB-RS232 Adapter[0001]". If you do not see this option, unplug the USB and plug it back in.  
@@ -137,8 +150,14 @@ Desktop/tests.json -o Desktop/tests.csv
 
 *If you are on windows, replace ttyS0 with ttyACM0 in the command above*
 
-Click Start to begin testing power. You can also switch to the next test.
-Note that the powertool as it was ran above saves collected data to CSV.
+**Make sure the screen is off before testing! Having the screen on will cause the battery usage to increase, throwing off the data.**
+
+1. Click Start to begin testing power. You can also switch to the next test.
+2. Click Stop to finish collecting the data. 
+3. Exit out of the fxPowertool program.
+4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
+
+
 
 API Usage
 ======================
