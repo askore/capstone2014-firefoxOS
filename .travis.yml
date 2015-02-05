@@ -6,7 +6,6 @@ before_install:
  - npm install -g nightwatch
  - sudo apt-get update
  - sudo apt-get install -y firefox
- - sudo apt-get install -y sshpass
 install: 
  - npm install
  - bower install
@@ -18,10 +17,8 @@ before_script:
  - sh -e /etc/init.d/xvfb start
  - sleep 3
  - grunt build
- - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/firefoxos.js firefoxos.js
- - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/app.js app.js
- - ./sftpx.sh capstone www-data@ec2-54-213-122-61.us-west-2.compute.amazonaws.com:capstone examples/battest/index.html index.html
  - sed -i s#.url\(.*#.url\(\"file://$PWD/examples/battest/index.html\"\)# examples/tests/test.js
 script:
  - grunt test
  - nightwatch examples/tests/test.js
+ - cat examples/tests/test.js
