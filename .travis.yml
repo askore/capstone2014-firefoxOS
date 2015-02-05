@@ -6,6 +6,7 @@ before_install:
  - npm install -g nightwatch
  - sudo apt-get update
  - sudo apt-get install -y firefox
+ - wget https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
 install: 
  - npm install
  - bower install
