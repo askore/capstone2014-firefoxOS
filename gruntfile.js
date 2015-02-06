@@ -12,12 +12,14 @@
 
 module.exports = function (grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-replace');
+	grunt.loadNpmTasks('grunt-nightwatch');
 	var config = {
 		app: 'lib',
 		dist: 'dist'
 	};
-
+	
 	grunt.initConfig({
 		config: config,
 		jshint: {
@@ -32,8 +34,8 @@ module.exports = function (grunt) {
 			]
 		},
 		clean: {
-            all: ['dist/*', 'dist/**/*']
-        },
+			all: ['dist/*', 'dist/**/*']
+		},
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js',
@@ -64,24 +66,49 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-        copy: {
-            main: {
-                src: 'dist/firefoxos.js',
-                dest: 'examples/battest/firefoxos.js'
-            }
-        }
+		copy: {
+			main: {
+				src: 'dist/firefoxos.js',
+				dest: 'examples/battest/firefoxos.js'
+			}
+		},
+		replace: {
+			dist: {
+				options: {
+					patterns: [{
+						match: /url.*/,
+						replacement: 'url\(\'file://' + process.cwd() + '/examples/battest/index.html\'\)'
+					}]
+				},
+				files: [{
+					expand:true, flatten:true, src: ['examples/tests/test.js'], dest: 'examples/tests/'
+				}]
+			}
+		},
+		nightwatch: {
+			options: {
+				standalone: true,
+				jar_path: 'selenium-server-standalone-2.44.0.jar',
+				  custom_assertions_path: 'nightwatch_assertions/',
+				src_folders: ['examples/tests/']
+
+			}
+		}
 	});
-
+	
 	grunt.registerTask('test', [
-		'karma:unit'
+		'karma:unit',
+		'nightwatch'
 	]);
-
+	
 	grunt.registerTask('build', [
 		'clean',
 		'concat',
 		'uglify',
 		'karma:unit',
-        'copy:main'
+		'copy:main',
+		'replace',
+		'nightwatch'
 	]);
 
 	grunt.registerTask('default', [
