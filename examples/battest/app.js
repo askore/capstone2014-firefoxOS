@@ -31,9 +31,7 @@ function addNonCriticalRequestHandler() {
 	var numAdd = document.getElementById('numNonCritReqAdd').value;
 
 	if (+interval === 0) {
-		for (var i = 0; i < numAdd; ++i) {
-			addNonCriticalRequest();			
-		}
+		addNonCriticalRequestQuantity(numAdd);
 	} else {
 		var startTime = new Date().getTime();
 		var interval = setInterval(function () {
@@ -50,6 +48,12 @@ function addNonCriticalRequest() {
 	var urlString = document.getElementById('requestURL');
 	AL.addNonCriticalRequest(urlString.value, null, function () {
 	});
+}
+
+function addNonCriticalRequestQuantity(numAdd) {
+	for (var i = 0; i < numAdd; ++i) {
+		addNonCriticalRequest();			
+	}	
 }
 
 function updateChargingStatus() {
@@ -71,9 +75,7 @@ function fireCriticalRequestHandler() {
 	var numAdd = document.getElementById('numNonCritReqAdd').value;
 	
 	if (addNonCritBefore.checked === true) {
-		for (var i = 0; i < numAdd; ++i) {
-			addNonCriticalRequest();			
-		}
+		addNonCriticalRequestQuantity(numAdd);			
 	}
 	
 	if (+interval === 0) {
