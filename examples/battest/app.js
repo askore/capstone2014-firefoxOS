@@ -29,9 +29,7 @@ function addNonCriticalRequestHandler() {
 	var numAdd = document.getElementById('numNonCritReqAdd').value;
 
 	if (+interval === 0) {
-		for (var i = 0; i < numAdd; ++i) {
-			addNonCriticalRequest();			
-		}
+		addNonCriticalRequestQuantity(numAdd);
 	} else {
 		var startTime = new Date().getTime();
 		var interval = setInterval(function () {
@@ -48,6 +46,12 @@ function addNonCriticalRequest() {
 	var urlString = document.getElementById('requestURL');
 	AL.addNonCriticalRequest(urlString.value, null, function () {
 	});
+}
+
+function addNonCriticalRequestQuantity(numAdd) {
+	for (var i = 0; i < numAdd; ++i) {
+		addNonCriticalRequest();			
+	}	
 }
 
 function updateChargingStatus() {
@@ -69,9 +73,7 @@ function fireCriticalRequestHandler() {
 	var numAdd = document.getElementById('numNonCritReqAdd').value;
 	
 	if (addNonCritBefore.checked === true) {
-		for (var i = 0; i < numAdd; ++i) {
-			addNonCriticalRequest();			
-		}
+		addNonCriticalRequestQuantity(numAdd);			
 	}
 	
 	if (+interval === 0) {
@@ -107,29 +109,11 @@ function updateTotalRequests() {
 function getRecords() {
 	var elem = document.getElementById('recordsList');
 	AL.getHistory(function (records) {
-		function requestObject(begin, end, size, origin, id) {
-			this.begin = begin;
-			this.end = end;
-			this.size = size;
-			this.origin = origin;
-			this.id = id;
-		}
-		records = [
-			new requestObject(26, 14, 5, "1", 1),
-			new requestObject(30, 15, 5, "1", 1),
-			new requestObject(67, 30, 5, "1", 1),
-			new requestObject(48, 24, 5, "1", 1),
-			new requestObject(Date.now(), Date.now(), 5, "1", 1),
-			new requestObject(Date.now(), Date.now(), 5, "1", 1),
-			new requestObject(Date.now(), Date.now(), 5, "1", 1),
-			new requestObject(Date.now(), Date.now(), 5, "1", 1),
-			new requestObject(Date.now(), Date.now(), 5, "1", 1)
-		];
 		if (records) {
 			var counter = 0;
 			var string = [];
 			for (var i = Math.max(records.length - 5, 0); i < Math.max(records.length, 0); ++i) {
-				string[counter] = records[i].begin - records[i].end;
+				string[counter] = records[i].end - records[i].begin;
 				++counter;
 			}
 			elem.innerHTML = string.toString();
