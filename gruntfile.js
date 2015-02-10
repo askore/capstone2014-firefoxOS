@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 		nightwatch: {
 			options: {
 				standalone: true,
-				jar_path: 'selenium-server-standalone-2.44.0.jar',
+				jar_url: 'https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar',
 				  custom_assertions_path: 'nightwatch_assertions/',
 				src_folders: ['examples/tests/']
 
