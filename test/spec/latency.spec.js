@@ -72,6 +72,13 @@ describe('test average function', function () {
 			done();
 		});
 	});
+	
+	it('should accept null dates', function (done) {
+		AL.getAverageLatency(null, null, function (average) {
+			expect(average).not.toBe(null);
+			done();
+		});
+	});
 
 	it('should have the correct average', function (done) {
 		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', {cats: 'infinitey'}, function () {
