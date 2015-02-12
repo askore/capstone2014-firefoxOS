@@ -171,3 +171,18 @@ describe('multiple concurrent requests are handled appropriately', function(){
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
 });
+
+
+describe ('404 request should have a timestamp stored too', function(){
+	it('should not return null from getLatestAccessTimeStamp', function(done){
+				AL.ajax('wfeiojwfe<<', null,function(result, status, xhr){
+					expect(result).toBe('NOT FOUND');
+					expect(status).toBe(404);	
+					done();
+				});
+				
+				AL.getLatestAccessTimeStamp(function(result){
+					expect(result).not.toBe(null);
+				});
+	});
+}); 
