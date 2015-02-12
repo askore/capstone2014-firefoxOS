@@ -1,7 +1,7 @@
 module.exports = {
 	"Battest App Tests" : function (browser) {
 		browser
-			.url("http://54.213.122.61/capstone/index.html")
+			.url('file://C:\Users\Tim\Documents\GitHub\capstone2014-firefoxOS/examples/battest/index.html')
 			.waitForElementVisible('body', 1000)
 			.waitForElementVisible('button[id=clearHistory]', 1000)
 			.click('button[id=clearHistory]')
@@ -9,7 +9,7 @@ module.exports = {
 			.assert.textEquals('span[id=recordsList]', '')
 			.waitForElementVisible('button[id=fireCriticalReq]', 1000)
 			.click('button[id=fireCriticalReq]')
-			.pause(1000)
+			.pause(2000)
 			.assert.textEquals('span[id=totalRequestCount]', '2')
 			.click('button[id=displayRecords]')
 			.assert.textNotEquals('span[id=recordsList]', '')
