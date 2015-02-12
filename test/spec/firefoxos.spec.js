@@ -124,3 +124,37 @@ describe('A non-critical request is added to the queue', function () {
 		done();
 	});
 });
+
+describe('using our APIs without passing callback is OK', function () {
+	var notfunction = "notGetCalled";
+	it('makes AJAX request without callback', function (done) {
+		AL.ajax('https://rocky-lake-3451.herokuapp.com', null, notfunction);
+		done();
+	});
+	
+	it('adds NonCriticalRequest without callback', function (done) {
+		AL.addNonCriticalRequest('https://rocky-lake-3451.herokuapp.com', null,notfunction);
+		done();
+	});
+	
+	it('getLatestAccessTimeStamp without callback', function (done) {
+		AL.getLatestAccessTimeStamp(notfunction);
+		done();
+	});
+	
+	it('getHistory without callback', function (done) {
+		AL.getHistory(notfunction);
+		done();
+	});
+	
+	it('getNextID without callback', function (done) {
+		AL.getNextID(notfunction);
+		done();
+	});
+	
+	it('trimedHistory without callback', function (done) {
+		AL.trimHistoryByDate(notfunction, new Date(0), new Date());
+		done();
+	});
+});
+

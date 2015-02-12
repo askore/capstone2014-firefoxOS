@@ -181,15 +181,18 @@ describe('multiple concurrent requests are handled appropriately', function(){
 
 
 describe ('404 request should have a timestamp stored too', function(){
-	it('should not return null from getLatestAccessTimeStamp', function(done){
-				AL.ajax('wfeiojwfe<<', null,function(result, status, xhr){
-					expect(result).toBe('NOT FOUND');
-					expect(status).toBe(404);	
-					done();
-				});
-				
-				AL.getLatestAccessTimeStamp(function(result){
-					expect(result).not.toBe(null);
-				});
+	it('makes an 404 request', function(done){
+		AL.ajax('wfeiojwfe<<', null,function(result, status, xhr){
+			expect(result).toBe('NOT FOUND');
+			expect(status).toBe(404);	
+			done();
+		});
 	});
-}); 
+	
+	it('record something', function(done){
+		AL.getLatestAccessTimeStamp(function(data){
+			expect(data).not.toBe(null); 
+			done();
+		});
+	});
+});
