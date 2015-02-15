@@ -184,15 +184,11 @@ describe ('404 request should have a timestamp stored too', function(){
 	it('makes an 404 request', function(done){
 		AL.ajax('wfeiojwfe<<', null,function(result, status, xhr){
 			expect(result).toBe('NOT FOUND');
-			expect(status).toBe(404);	
-			done();
-		});
-	});
-	
-	it('record something', function(done){
-		AL.getLatestAccessTimeStamp(function(data){
-			expect(data).not.toBe(null); 
-			done();
+			expect(status).toBe(404);
+			AL.getLatestAccessTimeStamp(function(data){
+				expect(data).not.toBe(null); 
+				done(); 
+			},true);
 		});
 	});
 });
