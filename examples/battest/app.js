@@ -13,6 +13,8 @@ window.addEventListener('load', function () {
 
 var onChrome;
 
+
+
 if (navigator.battery) {
 	onChrome = false;
 } else {
@@ -128,3 +130,6 @@ function getRecords() {
 function clearHistory() {
 	AL.clearHistory();
 }
+
+
+
