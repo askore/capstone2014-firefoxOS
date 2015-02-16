@@ -49,7 +49,8 @@ module.exports = function (grunt) {
 					}
 				},
 				files: {
-					'dist/firefoxos.min.js': 'dist/firefoxos.js'
+					'dist/firefoxos.min.js': 'dist/firefoxos.js',
+					'dist/firefoxos.nolocalforage.min.js': 'dist/firefoxos.nolocalforage.js'
 				}
 			}
 		},
@@ -61,6 +62,9 @@ module.exports = function (grunt) {
 				files: {
 					'dist/firefoxos.js': [
 						'bower_components/localforage/dist/localforage.js',
+						'lib/**/*.js'
+					],
+					'dist/firefoxos.nolocalforage.js':[
 						'lib/**/*.js'
 					]
 				}

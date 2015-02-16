@@ -6,8 +6,9 @@ afterEach(function (done) {
 	AL.clearHistory(done);
 });
 
-describe('base api function', function () {
-	it('should have a working test harness', function () {
+ddescribe('base api function', function () {
+	iit('should have a working test harness', function () {
+		console.log(AL);
 		expect(true).not.toBe(false);
 	});
 
