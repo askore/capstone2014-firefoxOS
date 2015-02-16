@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-replace');
-	grunt.loadNpmTasks('grunt-nightwatch');
+	grunt.loadNpmTasks('grunt-downloadfile');
 	var config = {
 		app: 'lib',
 		dist: 'dist'
@@ -85,20 +85,15 @@ module.exports = function (grunt) {
 				}]
 			}
 		},
-		nightwatch: {
-			options: {
-				standalone: true,
-				jar_url: 'https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar',
-				  custom_assertions_path: 'nightwatch_assertions/',
-				src_folders: ['examples/tests/']
-
-			}
+		downloadfile: {
+			files: [
+				'https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
+			]
 		}
 	});
 	
 	grunt.registerTask('test', [
-		'karma:unit',
-		'nightwatch'
+		'karma:unit'
 	]);
 	
 	grunt.registerTask('build', [
@@ -108,7 +103,7 @@ module.exports = function (grunt) {
 		'karma:unit',
 		'copy:main',
 		'replace',
-		'nightwatch'
+		'downloadfile'
 	]);
 
 	grunt.registerTask('default', [
