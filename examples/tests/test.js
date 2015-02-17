@@ -1,7 +1,7 @@
 module.exports = {
 	"Battest App Tests" : function (browser) {
 		browser
-			.url('file://c:\Users\gaobin\Desktop\capstone\capstone2014-firefoxOS/examples/battest/index.html')
+			.url('file://C:\xampp\htdocs\capstone2014-firefoxOS/examples/battest/index.html')
 			.waitForElementVisible('body', 1000)
 			.waitForElementVisible('button[id=clearHistory]', 1000)
 			.click('button[id=clearHistory]')

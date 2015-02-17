@@ -40,6 +40,10 @@ module.exports = function (grunt) {
 			unit: {
 				configFile: 'karma.conf.js',
 				singleRun: true
+			},
+			nolocalforage: {
+				configFile: 'karma.nolocalforage.conf.js',
+				singleRun: true
 			}
 		},
 		uglify: {
@@ -102,6 +106,7 @@ module.exports = function (grunt) {
 	
 	grunt.registerTask('test', [
 		'karma:unit',
+		'karma:nolocalforage',
 		'nightwatch'
 	]);
 	
@@ -110,6 +115,7 @@ module.exports = function (grunt) {
 		'concat',
 		'uglify',
 		'karma:unit',
+		'karma:nolocalforage',
 		'copy:main',
 		'replace',
 		'nightwatch'

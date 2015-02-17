@@ -16,7 +16,7 @@ module.exports = function(config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			'dist/firefoxos.js',
+			'dist/firefoxos.nolocalforage.js',
 			'test/spec/*.js'
 		],
 
@@ -50,7 +50,7 @@ module.exports = function(config) {
 		// - Safari (only Mac)
 		// - PhantomJS
 		// - IE (only Windows)
-		browsers: ['Chrome'],
+		browsers: ['Firefox'],
 		
 		browserNoActivityTimeout: 100000
 
