@@ -62,7 +62,7 @@ function updateChargingStatus() {
 		if (!onChrome) {
 			elem.innerHTML = navigator.battery.charging;
 		} else {
-			if(navigator.getBattery != undefined) {
+			if(typeof navigator.getBattery === 'function') {
 				navigator.getBattery().then(function (battery) {
 					elem.innerHTML = battery.charging;
 				})
