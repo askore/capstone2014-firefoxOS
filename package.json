@@ -10,9 +10,9 @@
     "grunt-contrib-copy": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-downloadfile": "*",
     "grunt-karma": "*",
     "grunt-replace": "*",
-    "grunt-nightwatch": "*",
     "grunt-string-replace": "^1.0.0",
     "jshint-stylish": "^0.4.0",
     "karma": "^0.12.16",
@@ -22,8 +22,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-script-launcher": "^0.1.0",
     "load-grunt-tasks": "^0.4.0",
-    "matchdep": "^0.3.0",
-    "nightwatch": "*"
+    "matchdep": "^0.3.0"
   },
   "engines": {
     "node": ">=0.10.0"

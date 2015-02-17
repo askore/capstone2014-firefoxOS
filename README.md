@@ -40,11 +40,13 @@ Nightwatch (http://nightwatchjs.org/) is used as the E2E testing solution for th
 
 `npm install -g nightwatch`
 
-Selenium (https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar) is also needed to run the Nightwatch tests. The included configuration file will automatically start Selenium when the tests are run.
+Selenium is also needed to run the Nightwatch tests. Grunt will automatically download Selenium (if it does not already exist in the directory) whenever `grunt-build` is executed. Should you want to download Selenium manually, you may do so from: https://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
 
-Grunt is configured to run Nightwatch whenever `grunt build` or `grunt test` are executed. On `grunt build` the `examples/tests/test.js` folder is edited to the change the path to the battest app's `index.html` file to be the absolute path to the copy on your local machine.
+The included configuration file will automatically start Selenium when the tests are run.
 
-You can use `nightwatch -t examples/tests/test.js` to run the tests manually, if desired.
+On `grunt build` the `examples/tests/test.js` folder is edited to the change the path to the battest app's `index.html` file to be the absolute path to the copy on your local machine. Therefore it is required to run `grunt-build` at least once prior to trying to executing the Nightwatch tests (or else manually edit the file yourself).
+
+You can use `nightwatch -t examples/tests/test.js` to run the tests.
 
 #### NetBeans
 ##### Downloading NetBeans and Loading Project  
