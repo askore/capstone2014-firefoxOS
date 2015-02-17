@@ -5,6 +5,259 @@ capstone2014-firefoxOS
 
 Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
+Overview
+======================
+
+This set of APIs is geared towards optimizing device battery life by optimizing when network requests are sent in order to reduce system resource usage (battery, network chipset) through a variety of API functionality. When making a XMLHttpRequest (XHR), you can flag it as either critical to have it fired off immediately, or as non-critical where the XHR is added to the queue that will be fired off at a determined ideal time. The ideal time is determined to be when the device has a battery level of at least 10%, and a critical XHR was just fired or the device is currently charging. The library also automatically saves up to 10,000 XHR's upon callback into a local database for developers to analyze and utilize. For example, a developer might use the database by writing a method that performs daily analysis to see when the user tends to be making successful XHRs (e.g. circa 8AM).
+
+An example FirefoxOS application [is included](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app) to demonstrate a working example of all the API functionality.
+
+Installing the Library
+======================
+
+#### Downloading the Library
+The latest compiled library can be found in the root directory's "dist" folder as **firefoxos.js** or **firefoxos.min.js**
+
+#### Including the Library
+
+##### FirefoxOS Application
+To include the library, put it in the same directory as your own Javascript file and HTML file(s) and reference the library in the `<HEAD>` the same way you would reference other Javascript files with `<script src="firefoxos.js" defer></script>`
+
+For example, in our [demo application](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app) included in this repository, a full `<HEAD>` in the index.html file where app.js is the Javascript file used for the Javascript of the HTML page looks like:
+
+```html
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+
+  <title>Hello World</title>
+
+  <style>
+    body {
+      border: 1px solid black;
+    }
+  </style>
+
+  <!-- Inline scripts are forbidden in Firefox OS apps (CSP restrictions),
+     so we use a script file. -->
+  <script src="firefoxos.js" defer></script>
+  <script src="app.js" defer></script>
+
+</head>
+```
+
+##### Other
+Certain functionality the API uses such as is the device charging has been tested within PC OS browsers and confirmed to work, but the library as a whole has not been tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, installation outside of Firefox OS can not be provided at this time.
+
+General Usage
+======================
+
+#### Concepts
+There are several key concepts within the library that are critical to know to effectively use the library:
+* **Critical requests**
+ * A critical request is a request for something that you need right now, regardless of whether it is a good time or not (e.g. shoddy Wi-Fi connection).
+ * Since critical requests are fired without respect to good conditions, critical requests can not be guaranteed to be successful.
+* **Non-critical requests**
+ * A non-critical request is a request for something that you need, but you don't need it right now. It gets added to a queue for non-critical requests
+ * The queue gets fired when "now is good" to fire them
+ * Since "now is good" includes battery heuristics (i.e. device is charging), non-critical requests can not be guaranteed to be successful, only that they will optimally use the battery of the device.
+* **"Now is good"**
+ * "Now is good" is a background process wherein the non-critical request queue will be fired when the API believes it to be a good time
+ * A good time is considered to be `if ((isCharging || criticalRequestFired) && batteryLevel > .10)`
+   * In other words, _the battery level of the device must be more than 10%_ and a critical request just fired or the device is charging
+* **Latency Recording**
+ * Latency recording is the background process the API does wherein critical and non-critical requests are recorded (when the request was made, when it finished, the request size, and a unique id for each request) for later use by the developer
+
+#### General Examples
+
+##### Firefox OS
+A basic Firefox OS application using the library consists of a manifest, an HTML index, a Javascript file for the index, our capstone library, and an icons directory. However, for the sake of simplicity we will highlight some examples that can be found within our sample Firefox OS app [which can easily be installed and ran](https://github.com/askore/capstone2014-firefoxOS/tree/master#virtual-phone).
+
+These examples contain snippets for the Index.html file and for the Javascript file for the Index to illustrate core concepts of the library and thus are not comprehensive as they don't cover all API functions. For all API function usage, [see the "API Usage" section below](https://github.com/askore/capstone2014-firefoxOS/tree/master#api-usage).
+
+###### Make a critical request
+You might have a case where you make a request that needs to be made immediately using a URL in a textbox element when a user presses a button.
+
+Index.html code:
+```html
+<input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br /><br />
+
+<button id="fireCriticalReq">Add non-critical request(s)</button>
+```
+Javascript:
+```javascript
+window.addEventListener('load', function () {
+  document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequest);
+});
+
+function fireCriticalRequest() {
+  var urlString = document.getElementById('requestURL');
+  AL.ajax(urlString.value, null, function () {
+  });
+}
+```
+
+###### Make a non-critical request
+You might have a case where you make a request for something that the user wants and requests via a URL in a textbox element when a user presses a button, but doesn't need right now.
+
+Index.html code:
+```html
+<input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br /><br />
+
+<button id="addNonCriticalReq">Add non-critical request(s)</button>
+```
+Javascript:
+```javascript
+window.addEventListener('load', function () {
+  document.getElementById('addNonCriticalReq').addEventListener('click', fireCriticalRequest);
+});
+
+function addNonCriticalRequest() {
+  var urlString = document.getElementById('requestURL');
+  AL.addNonCriticalRequest(urlString.value, null, function () {
+  });
+}
+```
+
+###### Grab the most recent requests and display the begin/end difference
+As a developer you might want to check to see if the most recent requests have a long time between when they start and when they end and visually display it. The following code grabs the most recent 5 records, calculates the difference between each request's begin and end, and then displays it as text.
+
+Index.html code:
+```html
+<div>
+  Last 5 records: <span id="recordsList"></span><br />
+  <button id="displayRecords">Display</button>
+</div>
+```
+Javascript:
+```javascript
+window.addEventListener('load', function () {
+  document.getElementById('displayRecords').addEventListener('click', getRecords);
+});
+
+function getRecords() {
+  var elem = document.getElementById('recordsList');
+  AL.getHistory(function (records) {
+    if (records) {
+      var counter = 0;
+      var string = [];
+      for (var i = Math.max(records.length - 5, 0); i < Math.max(records.length, 0); ++i) {
+        string[counter] = records[i].end - records[i].begin;
+        ++counter;
+      }
+      elem.innerHTML = string.toString();
+    }
+    else {
+      console.log("Records is null");
+    }
+  });
+}
+```
+
+##### Other
+Certain functionality the API uses such as is the device charging has been tested within PC OS browsers and confirmed to work, but the library as a whole has not been tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, examples outside of Firefox OS can not be provided at this time.
+
+#### Tips to Consider for Further Minimizing Battery Drain
+
+* Use GET requests for AJAX, when possible
+ * GET can be cached whereas POST can not
+* Minimize the resources needed to load pages
+ * Utilize caching and compressing where possible, especially when dealing with large resources like pictures and video
+* Avoid unnecessary data processing on the client
+ * If data processing can happen on the server side, process it there to minimize CPU (and consequently battery) usage
+* Avoid excessive polling of the server
+ * The API works best in when requests are concentrated at certain time points and the time points are spread out; excessive polling reduces the spread between time points and increases the number of points, consequently using up more battery
+
+API Usage
+======================
+
+All functionality is exposed through a global object called "AL" (for AJAX Library).
+
+#### AJAX Requests
+To make an AJAX request use the AL.ajax() method.
+
+`AL.ajax(url [, data] [, success])`
+
+An XMLHttpRequest object will be created using `url` as the endpoint. <br>
+`data`, if provided, will be JSON-encoded and passed to the endpoint.<br>
+`success` will be called when the request has completed successfully<br>
+
+The API will use a GET request if there is no data, otherwise it will be a POST.
+
+If the data argument is a function, it will be used as the success function.
+
+The success function is passed 3 arguments:<br>
+`success(Object responseBody, String status, XMLHttpRequest xhr)`
+
+`responseBody` will be the data that is received back from the endpoint.<br>
+`status` is the status code of the request (200, 404, etc)<br>
+`xhr` is the actual XMLHttpRequest object that was used to make the request<br>
+
+#### Non-critical AJAX Requests
+A non-critical request is added to a queue and waits until conditions are good enough to be fired.
+
+`AL.addNonCriticalRequest(url, data, callback)`
+
+The parameters are the same as the AL.ajax method.
+
+#### Latency Recording and Analysis
+When the library is used for an AJAX request, information about the request is recorded
+for later analysis.
+
+##### Latest Access Timestamp
+Retrieve the timestamp of the last time a request was completed.
+
+`AL.getLatestAccessTimeStamp(callback)`
+
+`callback` will be called with the latest access timestamp or null.
+
+##### Request History
+Retrieve the history of requests.<br>
+A maximum of 10,000 requests will be logged. When the 10,001 request would be logged, the oldest entry will be removed first.
+
+`AL.getHistory(callback)`
+
+`callback` will be called with an array of objects representing all requests sent.<br>
+Each history object is of the form:
+
+```javascript
+{
+    begin: Timestamp,
+    end: Timestamp,
+    size: integer
+    origin: string
+    id: integer
+}
+```
+
+`begin` is the timestamp of when the request was made.<br>
+`end` is the timestamp of when the request was finished.<br>
+`size` is the size of the request data (if any, if none, size is 0)
+`origin` is a string containing either "critical" or "non critical"
+`id` is a integer that increases every request starting at 1
+
+Entries are in chronological order (newest ones are last).
+
+`AL.getLatestAccessTimeStamp` is the same as calling `AL.getHistory`,
+getting the last entry and reading the `end` timestamp.
+
+`AL.getNextID(callback)` returns an incremented number 1 higher then the id of the
+last request
+
+`callback` will be called with an number one greater than the id of the last
+request or 1 if no history exists.
+
+##### Request History Within a Given Timeframe
+Retrieve only entries in the history whose `end` falls within a certain range
+
+`AL.trimHistoryByDate(callback, startDate, endDate)`
+
+`callback` will be called with an array of objects representing all requests sent within the specified range.
+
+`startDate` is a Javascript Date object representing the start of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `startDate` object will NOT be included in the returned history.
+
+`endDate` is a Javascript Date object representing the end of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `endDate` object will NOT be included in the returned history.
+
 Framework Setup / Development Practices
 ======================
 
@@ -16,10 +269,10 @@ combination for testing and developing code.
 #### Git for Windows
 It is necessary to have git in Windows' PATH else you won't be able to install bower later. If you already have git in Windows' PATH or else aren't using Windows, you may skip until the Node.js section.
 
-1. Download Git (http://git-scm.com/download/win) 
+1. Download Git (http://git-scm.com/download/win)
 2. Begin installing Git and during the install process select "Use Git from the Windows Command Prompts" which will put git in Windows' PATH
 
-#### Node.js 
+#### Node.js
 1. Download nodeJS (http://nodejs.org/)  
 2. Open up the Node.js Command Prompt  
 3. Navigate to your local firefox-OS repo  
@@ -66,7 +319,7 @@ The "test/spec" folder will hold our tests files
 ![Tabbing Standard](https://cloud.githubusercontent.com/assets/3056597/5869687/cb0882dc-a271-11e4-8464-d817ad645efa.png)
 
 ##### Tabbing Standards
-Use double tabbing for indentation of code (e.g. body of a loop or function) inside files contained both in the "lib" and "test/spec" directories.
+Use single tabbing for indentation of code (e.g. body of a loop or function) inside files contained both in the "lib" and "test/spec" directories.
 
 Deploying and Testing BatTest Demo App
 ======================
@@ -76,18 +329,18 @@ Deploying and Testing BatTest Demo App
 1. If you haven't already, due to reliance on dist/firefoxos.js, run `grunt build` following the [Node.js instructions above](https://github.com/askore/capstone2014-firefoxOS/tree/master#nodejs)
 2. Open up the Firefox browser
 3. Open up WebIDE by pressing Shift + F8 (or the WebIDE button in the toolbar if you've used webIDE before)
-4. Go to "Project" -> "Open Packaged App", navigate to and select the "battest" folder, and click "Select Folder"
+4. Go to "Project" -> "Open Packaged App", navigate to and select the "battest" folder located in the "examples" folder, and click "Select Folder"
 5. Click on "Select Runtime" then "Install Simulator"
 6. Install the most recent stable version of the Firefox OS Simulator (at time of writing, 2.0)
 7. Click on "Select Runtime", then click the most recent stable version of the Firefox OS Simulator under "SIMULATORS"
-8. Click the "Install and Run" button or CRTL+R to push the app to the phone 
+8. Click the "Install and Run" button or CRTL+R to push the app to the phone
 
 ##### Physical Phone
 1. Make sure the battery harness is not connected. Connect the phone to your computer via USB.
 2. Power the phone on. It should ask "An incoming request to permit remote debugging connection was detected. Allow connection?". Select "OK".
 3. Go to "Project" -> "Open Packaged App" and select the folder of the BatTest App.
 4. Click on "Select Runtime" then "Firefox OS" under "USB Devices"
-5. Go to "Project" -> "Install and Run" or CRTL+R to push the app to the phone. 
+5. Go to "Project" -> "Install and Run" or CRTL+R to push the app to the phone.
 
 #### Testing
 ##### Setting up Crapify
@@ -102,7 +355,7 @@ Deploying and Testing BatTest Demo App
 	* `speed` is the connection speed in bytes/second
 	* `concurrency` is the number of concurrent outbound connections allowed
 	* `drop-frequency` is how often should bytes be dropped (`byte count` % `drop frequency`)
-	  * Due to the definition of `drop-frequency` not being clear, and thus how to use it, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
+	  * Due to the definition of `drop-frequency` not being clear, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
 
 ##### Setting Up Environment For Battery Harness Testing
 1. Install VirtualBox and open it up from here: https://www.virtualbox.org/  
@@ -114,7 +367,7 @@ Deploying and Testing BatTest Demo App
 7. Click Settings next to the created VM and go to the Serial Ports tab.  
 
 ###### If you are on a Linux Host
-Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and for the "Port/File Path" enter in /dev/ttyACM0.    
+Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and for the "Port/File Path" enter in /dev/ttyACM0.
 
 ###### If you are on a Windows Host
 1. Uncheck the "Enable Serial Port" option.
@@ -122,7 +375,7 @@ Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and
 
 ###### Making use of the VM from the USB stick  
 
-1. If VirtualBox cannot detect the battery harness, unplug the USB and plug it back in. 
+1. If VirtualBox cannot detect the battery harness, unplug the USB and plug it back in.
 2. Once you get it connected to the computer turn the ammeter and it on.  
 3. Select the VM that you have created previously and choose the Start option.  
 4. When prompted for a login, enter "capstone" with the password as "firefox".  
@@ -132,7 +385,7 @@ Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and
 {
   "title": "My Test Cases",
   "tests": [
-    "My first test" 
+    "My first test"
   ]
 }
 ```
@@ -151,7 +404,7 @@ Click to "Enable Serial Port" for "Port 1", set "Port Mode" to "Host Device" and
 ```
 
 *If you are on windows, you will need to do a USB pass-through, otherwise skip these steps*  
-+ In VirtualBox, select "Devices" then "USB Devices"   
++ In VirtualBox, select "Devices" then "USB Devices"
 + Select "Dean Camera LUFA USB-RS232 Adapter[0001]". If you do not see this option, unplug the USB and plug it back in.  
 
 Open a LXTerminal and run the following to execute your series of test(s):  
@@ -166,98 +419,6 @@ Desktop/tests.json -o Desktop/tests.csv
 **Make sure the screen is off before testing! Having the screen on will cause the battery usage to increase, throwing off the data.**
 
 1. Click Start to begin testing power. You can also switch to the next test.
-2. Click Stop to finish collecting the data. 
+2. Click Stop to finish collecting the data.
 3. Exit out of the fxPowertool program.
 4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
-
-
-
-API Usage
-======================
-
-All functionality is exposed through a global object called "AL" (for AJAX Library).
-
-#### AJAX Requests
-To make an AJAX request use the AL.ajax() method.
-
-```AL.ajax(url [, data] [, success])```
-
-An XMLHttpRequest object will be created using `url` as the endpoint. <br>
-`data`, if provided, will be JSON-encoded and passed to the endpoint.<br>
-`success` will be called when the request has completed successfully<br>
-
-The API will use a GET request if there is no data, otherwise it will be a POST.
-
-If the data argument is a function, it will be used as the success function. 
-
-The success function is passed 3 arguments:<br>
-`success(Object responseBody, String status, XMLHttpRequest xhr)`
-
-`responseBody` will be the data that is received back from the endpoint.<br>
-`status` is the status code of the request (200, 404, etc)<br>
-`xhr` is the actual XMLHttpRequest object that was used to make the request<br>
-
-#### Non-critical AJAX Requests
-A non-critical request is added to a queue and waits until conditions are good enough to be fired. 
-
-```AL.addNonCriticalRequest(url, data, callback)```
-
-The parameters are the same as the AL.ajax method.
-
-#### Latency Recording and Analysis
-When the library is used for an AJAX request, information about the request is recorded
-for later analysis.
-
-##### Latest Access Timestamp
-Retrieve the timestamp of the last time a request was completed.
-
-`AL.getLatestAccessTimeStamp(callback)`
-
-`callback` will be called with the latest access timestamp or null.
-
-##### Request History
-Retrieve the history of requests.<br>
-A maximum of 10,000 requests will be logged. When the 10,001 request would be logged, the oldest entry will be removed first.
-
-`AL.getHistory(callback)`
-
-`callback` will be called with an array of objects representing all requests sent.<br>
-Each history object is of the form:
-
-```javascript
-{
-    begin: Timestamp,
-    end: Timestamp,
-    size: integer
-    origin: string
-    id: integer
-}
-```
-
-`begin` is the timestamp of when the request was made.<br>
-`end` is the timestamp of when the request was finished.<br>
-`size` is the size of the request data (if any, if none, size is 0)
-`origin` is a string containing either "critical" or "non critical"
-`id` is a integer that increases every request starting at 1
-
-Entries are in chronological order (newest ones are last).
-
-`AL.getLatestAccessTimeStamp` is the same as calling `AL.getHistory`,
-getting the last entry and reading the `end` timestamp. 
-
-`AL.getNextID(callback)` returns an incremented number 1 higher then the id of the 
-last request
-
-`callback` will be called with an number one greater than the id of the last
-request or 1 if no history exists.
-
-##### Request History Within a Given Timeframe
-Retrieve only entries in the history whose `end` falls within a certain range
-
-`AL.trimHistoryByDate(callback, startDate, endDate)`
-
-`callback` will be called with an array of objects representing all requests sent within the specified range.
-
-`startDate` is a Javascript Date object representing the start of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `startDate` object will NOT be included in the returned history.
-
-`endDate` is a Javascript Date object representing the end of the range you are interested in. Any objects in the history with an `end` timestamp equal to the `endDate` object will NOT be included in the returned history.
