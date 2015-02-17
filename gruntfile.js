@@ -40,6 +40,10 @@ module.exports = function (grunt) {
 			unit: {
 				configFile: 'karma.conf.js',
 				singleRun: true
+			},
+			nolocalforage: {
+				configFile: 'karma.nolocalforage.conf.js',
+				singleRun: true
 			}
 		},
 		uglify: {
@@ -49,7 +53,8 @@ module.exports = function (grunt) {
 					}
 				},
 				files: {
-					'dist/firefoxos.min.js': 'dist/firefoxos.js'
+					'dist/firefoxos.min.js': 'dist/firefoxos.js',
+					'dist/firefoxos.nolocalforage.min.js': 'dist/firefoxos.nolocalforage.js'
 				}
 			}
 		},
@@ -61,6 +66,9 @@ module.exports = function (grunt) {
 				files: {
 					'dist/firefoxos.js': [
 						'bower_components/localforage/dist/localforage.js',
+						'lib/**/*.js'
+					],
+					'dist/firefoxos.nolocalforage.js':[
 						'lib/**/*.js'
 					]
 				}
@@ -93,7 +101,8 @@ module.exports = function (grunt) {
 	});
 	
 	grunt.registerTask('test', [
-		'karma:unit'
+		'karma:unit',
+		'karma:nolocalforage',
 	]);
 	
 	grunt.registerTask('build', [
@@ -101,6 +110,7 @@ module.exports = function (grunt) {
 		'concat',
 		'uglify',
 		'karma:unit',
+		'karma:nolocalforage',
 		'copy:main',
 		'replace',
 		'downloadfile'

@@ -1,11 +1,6 @@
 'use strict';
 
 /*global AL*/
-
-afterEach(function (done) {
-	AL.clearHistory(done);
-});
-
 describe('base api function', function () {
 	it('should have a working test harness', function () {
 		expect(true).not.toBe(false);
@@ -22,6 +17,10 @@ describe('base api function', function () {
 	it('should return nothing', function () {
 		var result = AL.ajax('https://rocky-lake-3451.herokuapp.com');
 		expect(result).toBeUndefined();
+	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
 	});
 });
 
@@ -40,6 +39,10 @@ describe('makes async requests', function () {
 			expect(result).not.toContain("dogs");
 			done();
 		});
+	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
 	});
 });
 
@@ -79,6 +82,10 @@ describe('makes bogus requests', function () {
 		});
 		AL.ajax('https://rocky-lake-3451.herokuapp.com');
 	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
+	});
 });
 
 describe('make sure the event is fired when the request happens', function () {
@@ -93,6 +100,10 @@ describe('make sure the event is fired when the request happens', function () {
 		AL.ajax('https://rocky-lake-3451.herokuapp.com?q=cats', null, function (result, status, xhr) {
 		});
 	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
+	});
 });
 
 describe('The latency is recorded', function () {
@@ -104,6 +115,10 @@ describe('The latency is recorded', function () {
 			});
 		});
 	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
+	});
 });
 
 describe('verify GET and POST are chosen appropriately', function () {
@@ -112,6 +127,10 @@ describe('verify GET and POST are chosen appropriately', function () {
 			expect(result).toContain("GET");
 			done();
 		});
+	});
+	
+	afterEach(function (done) {
+		AL.clearHistory(done);
 	});
 });
 
@@ -122,6 +141,11 @@ describe('A non-critical request is added to the queue', function () {
 		var queue = AL.getPendingRequests();
 		expect(queue.length).toEqual(1);
 		done();
+	});
+	
+	afterEach(function (done) {
+		AL.clearPendingRequests();
+		AL.clearHistory(done);
 	});
 });
 
@@ -149,6 +173,11 @@ describe('using our APIs without passing callback is OK', function () {
 	
 	it('trimedHistory without callback', function () {
 		AL.trimHistoryByDate(notfunction, new Date(0), new Date());
+	});
+	
+	afterEach(function (done) {
+		AL.clearPendingRequests();
+		AL.clearHistory(done);
 	});
 });
 
