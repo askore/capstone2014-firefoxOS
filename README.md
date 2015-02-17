@@ -5,6 +5,8 @@ capstone2014-firefoxOS
 
 Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
+**Note to contributors: When making a pull request that includes code changes to the library, make sure to include the re-compiled library (all the files in /dist) reflecting the changes. Failure to do so will result in pull requests not being merged.
+
 Overview
 ======================
 
@@ -16,14 +18,14 @@ Installing the Library
 ======================
 
 #### Downloading the Library
-The latest compiled library can be found in the root directory's "dist" folder as **firefoxos.js** or **firefoxos.min.js**
+The latest compiled library can be found in the root directory's "dist" folder as **firefoxos.js** or **firefoxos.nolocalforage.js**
 
 #### Including the Library
 
 ##### FirefoxOS Application
 To include the library, put it in the same directory as your own Javascript file and HTML file(s) and reference the library in the `<HEAD>` the same way you would reference other Javascript files with `<script src="firefoxos.js" defer></script>`
 
-For example, in our [demo application](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app) included in this repository, a full `<HEAD>` in the index.html file where app.js is the Javascript file used for the Javascript of the HTML page looks like:
+For example, in our demo application [included in this repository](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app), a full `<HEAD>` in the index.html file where "app.js" is the Javascript file used for the Javascript of the HTML page looks like:
 
 ```html
 <head>
@@ -47,7 +49,7 @@ For example, in our [demo application](https://github.com/askore/capstone2014-fi
 ```
 
 ##### Other
-Certain functionality the API uses such as is the device charging has been tested within PC OS browsers and confirmed to work, but the library as a whole has not been tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, installation outside of Firefox OS can not be provided at this time.
+Certain functionality the API uses such as is the device charging and our "battest" demo app have been tested within PC OS browsers and confirmed to work, but the library as a whole has not been exhaustively tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, installation documentation outside of Firefox OS can not be provided at this time.
 
 General Usage
 ======================
@@ -58,20 +60,20 @@ There are several key concepts within the library that are critical to know to e
  * A critical request is a request for something that you need right now, regardless of whether it is a good time or not (e.g. shoddy Wi-Fi connection).
  * Since critical requests are fired without respect to good conditions, critical requests can not be guaranteed to be successful.
 * **Non-critical requests**
- * A non-critical request is a request for something that you need, but you don't need it right now. It gets added to a queue for non-critical requests
- * The queue gets fired when "now is good" to fire them
+ * A non-critical request is a request for something that you need, but you don't need it right now. It gets added to a queue for non-critical requests.
+ * The queue gets fired when "now is good" to fire them.
  * Since "now is good" includes battery heuristics (i.e. device is charging), non-critical requests can not be guaranteed to be successful, only that they will optimally use the battery of the device.
 * **"Now is good"**
- * "Now is good" is a background process wherein the non-critical request queue will be fired when the API believes it to be a good time
+ * "Now is good" is a background process wherein the non-critical request queue will be fired when the API believes it to be a good time.
  * A good time is considered to be `if ((isCharging || criticalRequestFired) && batteryLevel > .10)`
-   * In other words, _the battery level of the device must be more than 10%_ and a critical request just fired or the device is charging
+   * In other words, _the battery level of the device must be more than 10%_ and a critical request just fired or the device is charging.
 * **Latency Recording**
- * Latency recording is the background process the API does wherein critical and non-critical requests are recorded (when the request was made, when it finished, the request size, and a unique id for each request) for later use by the developer
+ * Latency recording is the automatic background process the API does wherein critical and non-critical requests are recorded (when the request was made, when it finished, the request size, and a unique id for each request) for later use by the developer.
 
 #### General Examples
 
 ##### Firefox OS
-A basic Firefox OS application using the library consists of a manifest, an HTML index, a Javascript file for the index, our capstone library, and an icons directory. However, for the sake of simplicity we will highlight some examples that can be found within our sample Firefox OS app [which can easily be installed and ran](https://github.com/askore/capstone2014-firefoxOS/tree/master#virtual-phone).
+A basic Firefox OS application using our capstone library consists of a manifest, an HTML index, a Javascript file for the index, our capstone library, and an icons directory. However, for the sake of simplicity we will highlight some basic examples that can be found within our sample Firefox OS app [which can easily be installed and ran](https://github.com/askore/capstone2014-firefoxOS/tree/master#virtual-phone).
 
 These examples contain snippets for the Index.html file and for the Javascript file for the Index to illustrate core concepts of the library and thus are not comprehensive as they don't cover all API functions. For all API function usage, [see the "API Usage" section below](https://github.com/askore/capstone2014-firefoxOS/tree/master#api-usage).
 
@@ -82,7 +84,7 @@ Index.html code:
 ```html
 <input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br /><br />
 
-<button id="fireCriticalReq">Add non-critical request(s)</button>
+<button id="fireCriticalReq">Fire critical requests</button>
 ```
 Javascript:
 ```javascript
@@ -97,6 +99,8 @@ function fireCriticalRequest() {
 }
 ```
 
+By using `AL.ajax(urlString.value, null, function () {});` we are passing in the desired URL as the first argument. Since we have no extra data we need to pass in, the second parameter is `null`. As a result, this request will be a GET. Were we need to put data in our request we would put it in this argument and instead of a GET request, a POST request would be made. For the third argument since we aren't interested in doing anything upon the request being completed we leave the callback blank.
+
 ###### Make a non-critical request
 You might have a case where you make a request for something that the user wants and requests via a URL in a textbox element when a user presses a button, but doesn't need right now.
 
@@ -109,7 +113,7 @@ Index.html code:
 Javascript:
 ```javascript
 window.addEventListener('load', function () {
-  document.getElementById('addNonCriticalReq').addEventListener('click', fireCriticalRequest);
+  document.getElementById('addNonCriticalReq').addEventListener('click', addNonCriticalRequest);
 });
 
 function addNonCriticalRequest() {
@@ -118,6 +122,8 @@ function addNonCriticalRequest() {
   });
 }
 ```
+
+By using `AL.ajax(urlString.value, null, function () {});` we are passing in the desired URL as the first argument. Since we have no extra data we need to pass in, the second parameter is `null`. As a result, this request will be a GET. Were we need to put data in our request we would put it in this argument and instead of a GET request, a POST request would be made. For the third argument since we aren't interested in doing anything upon the request being completed we leave the callback blank.
 
 ###### Grab the most recent requests and display the begin/end difference
 As a developer you might want to check to see if the most recent requests have a long time between when they start and when they end and visually display it. The following code grabs the most recent 5 records, calculates the difference between each request's begin and end, and then displays it as text.
@@ -155,7 +161,7 @@ function getRecords() {
 ```
 
 ##### Other
-Certain functionality the API uses such as is the device charging has been tested within PC OS browsers and confirmed to work, but the library as a whole has not been tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, examples outside of Firefox OS can not be provided at this time.
+Certain functionality the API uses such as is the device charging and our "battest" demo app have been tested within PC OS browsers and confirmed to work, but the library as a whole has not been exhaustively tested on platforms outside of Firefox OS. As such while the library is planned to support all manner of platforms, example documentation outside of Firefox OS can not be provided at this time. However, usage for platforms outside of Firefox OS will be the same.
 
 #### Tips to Consider for Further Minimizing Battery Drain
 

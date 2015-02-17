@@ -2528,9 +2528,9 @@ requireModule('promise/polyfill').polyfill();
 		data = data ? data.toString() : null;
 		 
 		if (critical) {
-			origin = 'critical'
+			origin = 'critical';
 		} else {
-			origin = 'non critical'
+			origin = 'non critical';
 		}
 		
 		var xhr = new XMLHttpRequest(),
@@ -2576,12 +2576,19 @@ requireModule('promise/polyfill').polyfill();
 	
 	function ensureHistoryStoreIsOpen(callback) {
 		if (historyStore === null) {
-			localforage.getItem(storageKey, function(err, value){
-				historyStore = value || [];
+			if (localforage) {
+				localforage.getItem(storageKey, function(err, value){
+					historyStore = value || [];
+					if (typeof callback === 'function') {
+						callback();
+					}
+				});
+			} else {
+				historyStore = [];
 				if (typeof callback === 'function') {
 					callback();
 				}
-			});
+			}
 		} else {
 			if (typeof callback === 'function') {
 				callback();
@@ -2590,13 +2597,9 @@ requireModule('promise/polyfill').polyfill();
 	}
 
 	function recordLatency(size, startedAt, finishedCallback, origin, wasSuccessful, statusCode) {
-		if (!localforage) {
-			return;
-		}
-		
 		var now = new Date().getTime();
 		
-		ensureHistoryStoreIsOpen(function () {
+		obj.getHistory(function (historyStore) {
 			if (historyStore.length > 9999) {
 				historyStore.shift(); //remove first (oldest) item
 			}
@@ -2604,52 +2607,44 @@ requireModule('promise/polyfill').polyfill();
 			obj.getNextID(function (id) {
 				historyStore.push({begin: startedAt, end: now, size: size, origin: origin, id: id, 
 					status: wasSuccessful, statusCode: statusCode});
+				if (!localforage) {
+					finishedCallback();
+					return;
+				}
 				localforage.setItem(storageKey, historyStore, finishedCallback);
 			});
 		});
 	}
 
 	obj.getLatestAccessTimeStamp = function (callback, getUnsuccessfulRequests) {
-		if (getUnsuccessfulRequests === null){
-			getUnsuccessfulRequests = false;
-		}
-		if (!localforage) {
-			if (typeof callback === 'function') {
-				callback(null);
-			}
-			return;
-		}
+		getUnsuccessfulRequests = getUnsuccessfulRequests || false;
 		
-		localforage.getItem(storageKey, function (err, value) {
+		obj.getHistory(function(value){
+			var lastaccess = null;
 			if (value !== null && value.length > 0) {
 				var first = value.pop();
-				if (typeof callback === 'function') {
-					if (first['status'] === 'success') {
-						callback(first['end']);
+				if (first) {
+					if (first.status === 'success' || getUnsuccessfulRequests) {
+						lastaccess = first.end;
 					} else {
-						if (getUnsuccessfulRequests){
-							callback(first['end']);
-						} else {
-							while (first['status'] === 'failure'){
-								first = value.pop();
-							}
-								callback(first['end']);
+						while (first && typeof first.status !== 'undefined' && first.status === 'failure'){
+							first = value.pop();
 						}
+						lastaccess = typeof first !== 'undefined' ? first.end : null;
 					}
 				}
-			} else {
-				if (typeof callback === 'function') {
-					callback(null);
-				}
+			}
+			if (typeof callback === 'function') {
+				callback(lastaccess);
 			}
 		});
 	};
 
 	obj.getNextID = function (callback) {
-		ensureHistoryStoreIsOpen(function () {
+		obj.getHistory(function (historyStore) {
 			if (typeof callback === 'function') {
 				if (historyStore !== null && historyStore.length > 0) {
-					callback((historyStore[historyStore.length - 1]['id'] + 1) || 1);
+					callback((historyStore[historyStore.length - 1].id + 1) || 1);
 				} else {
 					callback(1);
 				}
@@ -2658,15 +2653,9 @@ requireModule('promise/polyfill').polyfill();
 	};
 
 	obj.getHistory = function (callback) {
-		if (!localforage) {
+		ensureHistoryStoreIsOpen(function(){
 			if (typeof callback === 'function') {
-				callback(null);
-			}
-			return;
-		}
-		localforage.getItem(storageKey, function (err, value) {
-			if (typeof callback === 'function') {
-				callback(value);
+				callback(historyStore);
 			}
 		});
 	};
@@ -2674,7 +2663,13 @@ requireModule('promise/polyfill').polyfill();
 	obj.clearHistory = function(callback) {
 		ensureHistoryStoreIsOpen(function(){
 			historyStore = [];
-			localforage.clear(callback);
+			if (localforage) {
+				localforage.clear(callback);
+			} else {
+				if (typeof callback === 'function') {
+					callback();
+				}
+			}
 		});
 	};
 
@@ -2700,24 +2695,23 @@ requireModule('promise/polyfill').polyfill();
 	};
 
 	obj.trimHistoryByDate = function (callback, startDate, endDate) {
-		if (!localforage) {
-			if (typeof callback === 'function') {
-				callback(null);
-			}
-			return;
-		}
 		obj.getHistory(function (history) {
 			var trimmedHistory = [];
 			if (history && history.length > 0) {
 				for (var i = 0; i < history.length; i++) {
-					if (history[i]['end'] > startDate && history[i]['end'] < endDate)
-						trimmedHistory[trimmedHistory.length] = history[i];
+					if (history[i].end > startDate && history[i].end < endDate) {
+						trimmedHistory.push(history[i]);
+					}
 				}
 			}
 			if (typeof callback === 'function') {
 				callback(trimmedHistory);
 			}
 		});
+	};
+	
+	obj.clearPendingRequests = function(){
+		queue = [];
 	};
 
 	// In the event that there's already an AL object on the context, save it
@@ -2754,7 +2748,7 @@ requireModule('promise/polyfill').polyfill();
 			checkIfGood();
 		};
 		nav.battery.onlevelchange = function(){
-			batteryLevel = batMan.level;
+			batteryLevel = nav.battery.level;
 		};
 
 	} else if (typeof nav.getBattery === 'function') {
