@@ -23,3 +23,5 @@ Thumbs.db
 .tmp
 /nbproject/
 dist
+selenium-server-standalone-2.44.0.jar
+selenium-debug.log
