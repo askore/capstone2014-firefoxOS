@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
 	window.addEventListener('network-ready', updatePendingRequestCount);
 	document.getElementById('clearHistory').addEventListener('click', clearHistory);
 	document.getElementById('fireCriticalReq').addEventListener('click', fireCriticalRequestHandler);
+	document.getElementById('removeReq').addEventListener('click', removeNonCriticalRequest);
 	setInterval(updateChargingStatus, 100);
 	updatePendingRequestCount();
 	setInterval(updatePendingRequestCount, 100);
@@ -42,6 +43,14 @@ function addNonCriticalRequestHandler() {
 			addNonCriticalRequest();
 		}, interval * 1000);
 	}
+}
+
+function removeNonCriticalRequest() {
+	var url = document.getElementById('requestURL');
+	AL.removeNonCriticalRequest(url.value);
+	
+	
+	
 }
 
 function addNonCriticalRequest() {
