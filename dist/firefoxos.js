@@ -2579,8 +2579,13 @@ requireModule('promise/polyfill').polyfill();
 		}
 	}
 
-	obj.addNonCriticalRequest = function (url, data, callback, method) {
+	obj.addNonCriticalRequest = function (url, data, callback, method, timeout) {
 		queue.push({Url: url, Data: data, Callback: callback, Method: method});
+		if (timeout) {
+			context.setTimeout(function(){
+				context.dispatchEvent(criticalRequestEvent);
+			}, timeout);
+		}
 	};
 
 	obj.getPendingRequests = function () {

@@ -207,3 +207,26 @@ describe('using alternate http methods', function(){
 	});
 });
 
+describe('non-critical request with timeout requested', function(){
+	var originalTimeout;
+	beforeEach(function (done) {
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
+		AL.clearPendingRequests();
+		AL.clearHistory(done);
+	});
+	afterEach(function (done) {
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+		AL.clearPendingRequests();
+		AL.clearHistory(done);
+	});
+	
+	it('waits an amount of time and then fires request', function(done){
+		AL.addNonCriticalRequest('https://rocky-lake-3451.herokuapp.com?q=cats', null, function(data){
+			data = JSON.parse(data);
+			expect(data.request_method).toBe('PUT');
+			done();
+		}, 'put', 3000);
+	});
+});
+
