@@ -2506,16 +2506,28 @@ requireModule('promise/polyfill').polyfill();
 
 	context.addEventListener(nowIsGood, function () {
 		for (var i = 0; i < queue.length; ++i) {
-			processRequest(queue[i].Url, queue[i].Data, queue[i].Callback, false);
+			processRequest(queue[i].Url, queue[i].Data, queue[i].Callback, false, queue[i].Method);
 		}
 		queue = [];
 	});
+    
+    obj.removeNonCriticalRequest = function(url) {
+        var index = -1;
+        for(var i = 0; i < queue.length; ++i) {
+           if(queue[i].Url == url) {
+               index = i;
+           }
+        }
+        if (index > -1) {
+            queue.splice(index, 1);
+        }
+    };
 
-	obj.ajax = function (url, data, callback) {
-		processRequest(url, data, callback, true);
+	obj.ajax = function (url, data, callback, method) {
+		processRequest(url, data, callback, true, method);
 	};
 
-	function processRequest(url, data, callback, critical) {
+	function processRequest(url, data, callback, critical, method) {
 		var startedAt = new Date().getTime();
 		if (typeof data === 'function') {
 			callback = data;
@@ -2558,7 +2570,8 @@ requireModule('promise/polyfill').polyfill();
 
 		xhr.onload = successCallback;
 		xhr.onerror = errorCallback;
-		xhr.open(data !== null ? 'POST' : 'GET', url);
+		method = method || (data !== null ? 'POST' : 'GET');
+		xhr.open(method.toUpperCase(), url);
 		try {
 			xhr.send(data || null);
 		} catch (e) {
@@ -2566,8 +2579,13 @@ requireModule('promise/polyfill').polyfill();
 		}
 	}
 
-	obj.addNonCriticalRequest = function (url, data, callback) {
-		queue.push({Url: url, Data: data, Callback: callback});
+	obj.addNonCriticalRequest = function (url, data, callback, method, timeout) {
+		queue.push({Url: url, Data: data, Callback: callback, Method: method});
+		if (timeout) {
+			context.setTimeout(function(){
+				context.dispatchEvent(criticalRequestEvent);
+			}, timeout);
+		}
 	};
 
 	obj.getPendingRequests = function () {
