@@ -11,7 +11,7 @@ Table of Contents
 ======================
 [Overview](#overview)
 
-<a id="overview">Overview</a>
+Overview
 ======================
 
 This set of APIs is geared towards optimizing device battery life by optimizing when network requests are sent in order to reduce system resource usage (battery, network chipset) through a variety of API functionality. When making a XMLHttpRequest (XHR), you can flag it as either critical to have it fired off immediately, or as non-critical where the XHR is added to the queue that will be fired off at a determined ideal time. The ideal time is determined to be when the device has a battery level of at least 10%, and a critical XHR was just fired or the device is currently charging. The library also automatically saves up to 10,000 XHR's upon callback into a local database for developers to analyze and utilize. For example, a developer might use the database by writing a method that performs daily analysis to see when the user tends to be making successful XHRs (e.g. circa 8AM).
