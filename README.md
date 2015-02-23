@@ -9,9 +9,9 @@ Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
 Table of Contents
 ======================
-- [Overview](#)
-- [Installing the Library](#)
-  - [Downloading the Library](#)
+- [Overview](#overview)
+- [Installing the Library](#installing-the-library)
+  - [Downloading the Library](#downloading-the-library)
   - [Including the Library](#)
     - [FirefoxOS Application](#)
     - [Other](#)
