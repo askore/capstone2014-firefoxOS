@@ -22,3 +22,4 @@ ehthumbs.db
 Thumbs.db
 .tmp
 /nbproject/
+selenium-server-standalone-*.jar
