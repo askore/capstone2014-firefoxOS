@@ -7,6 +7,50 @@ Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
 **Note to contributors: When making a pull request that includes code changes to the library, make sure to include the re-compiled library (all the files in /dist) reflecting the changes. Failure to do so will result in pull requests not being merged.
 
+Table of Contents
+======================
+- [Overview](#)
+- [Installing the Library](#)
+  - [Downloading the Library](#)
+  - [Including the Library](#)
+    - [FirefoxOS Application](#)
+    - [Other](#)
+- [General Usage](#)
+  - [Concepts](#)
+  - [General Examples](#)
+    - [Firefox OS](#)
+      - [Make a critical request](#)
+      - [Make a non-critical request](#)
+      - [Grab the most recent requests and display the begin/end difference](#)
+    - [Other](#)
+  - [Tips to Consider for Further Minimizing Battery Drain](#)
+- [API Usage](#)
+  - [AJAX Requests](#)
+  - [Non-critical AJAX Requests](#)
+  - [Latency Recording and Analysis](#)
+    - [Latest Access Timestamp](#)
+    - [Request History](#)
+    - [Request History Within a Given Timeframe](#)
+- [Framework Setup / Development Practices](#)
+  - [Git for Windows](#)
+  - [Node.js](#)
+  - [Nightwatch](#)
+  - [NetBeans](#)
+    - [Downloading NetBeans and Loading Project](#)
+    - [Setting Up Tabbing Standards](#)
+    - [Tabbing Standards](#)
+- [Deploying and Testing BatTest Demo App](#)
+  - [Deployment](#)
+    - [Virtual Phone](#)
+    - [Physical Phone](#)
+  - [Testing](#)
+    - [Setting up Crapify](#)
+      - [Using Crapify with phone](#)
+    - [Setting Up Environment For Battery Harness Testing](#)
+      - [If you are on a Linux Host](#)
+      - [If you are on a Windows Host](#)
+      - [Making use of the VM from the USB stick](#)
+
 Overview
 ======================
 
