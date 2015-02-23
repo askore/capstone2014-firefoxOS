@@ -28,7 +28,7 @@ Table of Contents
   - [AJAX Requests](#ajax-requests)
   - [Non-critical AJAX Requests](#non-critical-ajax-requests)
   - [Latency Recording and Analysis](#latency-recording-and-analysis)
-    - [Latest Access Timestamp](#latest-access-timestap)
+    - [Latest Access Timestamp](#latest-access-timestamp)
     - [Request History](#request-history)
     - [Request History Within a Given Timeframe](#request-history-within-a-given-timeframe)
 - [Framework Setup / Development Practices](#framework-setup--development-practices)
@@ -45,8 +45,8 @@ Table of Contents
     - [Physical Phone](#physical-phone)
   - [Testing](#testing)
     - [Setting up Crapify](#setting-up-crapify)
-      - [Using Crapify with a phone](#using-crapify-with-a-phone)
-    - [Setting Up Environment For Battery Harness Testing](#setting-up-enivironment-for-battery-harness-testing)
+      - [Using Crapify with a Phone](#using-crapify-with-a-phone)
+    - [Setting Up Environment For Battery Harness Testing](#setting-up-environment-for-battery-harness-testing)
       - [If you are on a Linux Host](#if-you-are-on-a-linux-host)
       - [If you are on a Windows Host](#if-you-are-on-a-windows-host)
       - [Making use of the VM from the USB stick](#making-use-of-the-vm-from-the-usb-stick)
@@ -407,7 +407,7 @@ Deploying and Testing BatTest Demo App
 	* `drop-frequency` is how often should bytes be dropped (`byte count` % `drop frequency`)
 	  * Due to the definition of `drop-frequency` not being clear, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
 
-###### Using Crapify with a phone
+###### Using Crapify with a Phone
 If you wish to use Crapify to degrade a phone's network connection, you need to install and run crapify on a server and then redirect all the phone's traffic through that server. This requires both having adb (android debugger) installed as well as a phone that is adb compatible (ie Android or Firefox OS):
 
 1. Install and run crapify on the server as described above.
