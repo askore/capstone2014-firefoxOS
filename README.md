@@ -7,14 +7,14 @@ Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
 **Note to contributors: When making a pull request that includes code changes to the library, make sure to include the re-compiled library (all the files in /dist) reflecting the changes. Failure to do so will result in pull requests not being merged.
 
-<a id="overview">Overview
+Overview
 ======================
 
 This set of APIs is geared towards optimizing device battery life by optimizing when network requests are sent in order to reduce system resource usage (battery, network chipset) through a variety of API functionality. When making a XMLHttpRequest (XHR), you can flag it as either critical to have it fired off immediately, or as non-critical where the XHR is added to the queue that will be fired off at a determined ideal time. The ideal time is determined to be when the device has a battery level of at least 10%, and a critical XHR was just fired or the device is currently charging. The library also automatically saves up to 10,000 XHR's upon callback into a local database for developers to analyze and utilize. For example, a developer might use the database by writing a method that performs daily analysis to see when the user tends to be making successful XHRs (e.g. circa 8AM).
 
 An example FirefoxOS application [is included](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app) to demonstrate a working example of all the API functionality.
 
-<a id="install_library">Installing the Library</a>
+Installing the Library
 ======================
 
 #### Downloading the Library
@@ -363,7 +363,7 @@ Deploying and Testing BatTest Demo App
 	* `drop-frequency` is how often should bytes be dropped (`byte count` % `drop frequency`)
 	  * Due to the definition of `drop-frequency` not being clear, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
 
-##### Using Crapify with phone
+###### Using Crapify with phone
 If you wish to use Crapify to degrade a phone's network connection, you need to install and run crapify on a server and then redirect all the phone's traffic through that server. This requires both having adb (android debugger) installed as well as a phone that is adb compatible (ie Android or Firefox OS):
 
 1. Install and run crapify on the server as described above.
