@@ -3,7 +3,8 @@ capstone2014-firefoxOS
 
 [![Build Status](https://travis-ci.org/askore/capstone2014-firefoxOS.svg?branch=master)](https://travis-ci.org/askore/capstone2014-firefoxOS)
 
-Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
+Javascript APIs for optimizing battery life through optimizing network communications. PSU CS Capstone 2014.
+Licensed under the Mozilla Public License, version 2.0.
 
 **Note to contributors: When making a pull request that includes code changes to the library, make sure to include the re-compiled library (all the files in /dist) reflecting the changes. Failure to do so will result in pull requests not being merged.
 
@@ -13,7 +14,7 @@ Table of Contents
 - [Installing the Library](#installing-the-library)
   - [Downloading the Library](#downloading-the-library)
   - [Including the Library](#including-the-library)
-    - [FirefoxOS Application](#firefoxos-application)
+    - [Firefox OS Application](#firefox-os-application)
     - [Other](#other)
 - [General Usage](#general-usage)
   - [Concepts](#concepts)
@@ -56,7 +57,7 @@ Overview
 
 This set of APIs is geared towards optimizing device battery life by optimizing when network requests are sent in order to reduce system resource usage (battery, network chipset) through a variety of API functionality. When making a XMLHttpRequest (XHR), you can flag it as either critical to have it fired off immediately, or as non-critical where the XHR is added to the queue that will be fired off at a determined ideal time. The ideal time is determined to be when the device has a battery level of at least 10%, and a critical XHR was just fired or the device is currently charging. The library also automatically saves up to 10,000 XHR's upon callback into a local database for developers to analyze and utilize. For example, a developer might use the database by writing a method that performs daily analysis to see when the user tends to be making successful XHRs (e.g. circa 8AM).
 
-An example FirefoxOS application [is included](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app) to demonstrate a working example of all the API functionality.
+An example Firefox OS application [is included](#deploying-and-testing-battest-demo-app) to demonstrate a working example of all the API functionality.
 
 Installing the Library
 ======================
@@ -66,10 +67,10 @@ The latest compiled library can be found in the root directory's "dist" folder a
 
 #### Including the Library
 
-##### FirefoxOS Application
+##### Firefox OS Application
 To include the library, put it in the same directory as your own Javascript file and HTML file(s) and reference the library in the `<HEAD>` the same way you would reference other Javascript files with `<script src="firefoxos.js" defer></script>`
 
-For example, in our demo application [included in this repository](https://github.com/askore/capstone2014-firefoxOS#deploying-and-testing-battest-demo-app), a full `<HEAD>` in the index.html file where "app.js" is the Javascript file used for the Javascript of the HTML page looks like:
+For example, in our demo application [included in this repository](#deploying-and-testing-battest-demo-app), a full `<HEAD>` in the index.html file where "app.js" is the Javascript file used for the Javascript of the HTML page looks like:
 
 ```html
 <head>
@@ -117,9 +118,9 @@ There are several key concepts within the library that are critical to know to e
 #### General Examples
 
 ##### Firefox OS
-A basic Firefox OS application using our capstone library consists of a manifest, an HTML index, a Javascript file for the index, our capstone library, and an icons directory. However, for the sake of simplicity we will highlight some basic examples that can be found within our sample Firefox OS app [which can easily be installed and ran](https://github.com/askore/capstone2014-firefoxOS/tree/master#virtual-phone).
+A basic Firefox OS application using our capstone library consists of a manifest, an HTML index, a Javascript file for the index, our capstone library, and an icons directory. However, for the sake of simplicity we will highlight some basic examples that can be found within our sample Firefox OS app [which can easily be installed and ran](#virtual-phone).
 
-These examples contain snippets for the Index.html file and for the Javascript file for the Index to illustrate core concepts of the library and thus are not comprehensive as they don't cover all API functions. For all API function usage, [see the "API Usage" section below](https://github.com/askore/capstone2014-firefoxOS/tree/master#api-usage).
+These examples contain snippets for the Index.html file and for the Javascript file for the Index to illustrate core concepts of the library and thus are not comprehensive as they don't cover all API functions. For all API function usage, [see the "API Usage" section below](#api-usage).
 
 ###### Make a critical request
 You might have a case where you make a request that needs to be made immediately using a URL in a textbox element when a user presses a button.
@@ -376,7 +377,7 @@ Deploying and Testing BatTest Demo App
 
 #### Deployment
 ##### Virtual Phone
-1. If you haven't already, due to reliance on dist/firefoxos.js, run `grunt build` following the [Node.js instructions above](https://github.com/askore/capstone2014-firefoxOS/tree/master#nodejs)
+1. If you haven't already, due to reliance on dist/firefoxos.js, run `grunt build` following the [Node.js instructions above](#nodejs)
 2. Open up the Firefox browser
 3. Open up WebIDE by pressing Shift + F8 (or the WebIDE button in the toolbar if you've used webIDE before)
 4. Go to "Project" -> "Open Packaged App", navigate to and select the "battest" folder located in the "examples" folder, and click "Select Folder"
@@ -394,7 +395,7 @@ Deploying and Testing BatTest Demo App
 
 #### Testing
 ##### Setting up Crapify
-1. Set up and build the library using the [Node.js instructions above](https://github.com/askore/capstone2014-firefoxOS/tree/master#nodejs)
+1. Set up and build the library using the [Node.js instructions above](#nodejs)
 2. Open up the Node.js Command Prompt  
 3. Navigate to your local firefox-OS repo  
 4. Run the following commands:  
@@ -412,7 +413,7 @@ If you wish to use Crapify to degrade a phone's network connection, you need to 
 
 1. Install and run crapify on the server as described above.
 2. Connect the phone via microUSB to the computer with adb installed.
-3. Run the following command: 
+3. Run the following command:
   * `adb shell iptables -t nat -A OUTPUT -p tcp --dport 80 -j DNAT --to-destination x.x.x.x:5000`
   * Where `x.x.x.x` is your server's IP address
 4. As long as the phone remains connected, all traffic on the phone should be degraded in accordance with the Crapify settings on the server.
