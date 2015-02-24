@@ -7,6 +7,50 @@ Javascript APIs for offline communications in Firefox OS. PSU CS Capstone 2014
 
 **Note to contributors: When making a pull request that includes code changes to the library, make sure to include the re-compiled library (all the files in /dist) reflecting the changes. Failure to do so will result in pull requests not being merged.
 
+Table of Contents
+======================
+- [Overview](#overview)
+- [Installing the Library](#installing-the-library)
+  - [Downloading the Library](#downloading-the-library)
+  - [Including the Library](#including-the-library)
+    - [FirefoxOS Application](#firefoxos-application)
+    - [Other](#other)
+- [General Usage](#general-usage)
+  - [Concepts](#concepts)
+  - [General Examples](#general-examples)
+    - [Firefox OS](#firefox-os)
+      - [Make a critical request](#make-a-critical-request)
+      - [Make a non-critical request](#make-a-non-critical-request)
+      - [Grab the most recent requests and display the begin/end difference](#grab-the-most-recent-requests-and-display-the-beginend-difference)
+    - [Other](#other-1)
+  - [Tips to Consider for Further Minimizing Battery Drain](#tips-to-consider-for-further-minimizing-battery-drain)
+- [API Usage](#api-usage)
+  - [AJAX Requests](#ajax-requests)
+  - [Non-critical AJAX Requests](#non-critical-ajax-requests)
+  - [Latency Recording and Analysis](#latency-recording-and-analysis)
+    - [Latest Access Timestamp](#latest-access-timestamp)
+    - [Request History](#request-history)
+    - [Request History Within a Given Timeframe](#request-history-within-a-given-timeframe)
+- [Framework Setup / Development Practices](#framework-setup--development-practices)
+  - [Git for Windows](#git-for-windows)
+  - [Node.js](#nodejs)
+  - [Nightwatch](#nightwatch)
+  - [NetBeans](#netbeans)
+    - [Downloading NetBeans and Loading Project](#downloading-netbeans-and-loading-project)
+    - [Setting Up Tabbing Standards](#setting-up-tabbing-standards)
+    - [Tabbing Standards](#tabbing-standards)
+- [Deploying and Testing BatTest Demo App](#deploying-and-testing-battest-demo-app)
+  - [Deployment](#deployment)
+    - [Virtual Phone](#virtual-phone)
+    - [Physical Phone](#physical-phone)
+  - [Testing](#testing)
+    - [Setting up Crapify](#setting-up-crapify)
+      - [Using Crapify with a Phone](#using-crapify-with-a-phone)
+    - [Setting Up Environment For Battery Harness Testing](#setting-up-environment-for-battery-harness-testing)
+      - [If you are on a Linux Host](#if-you-are-on-a-linux-host)
+      - [If you are on a Windows Host](#if-you-are-on-a-windows-host)
+      - [Making use of the VM from the USB stick](#making-use-of-the-vm-from-the-usb-stick)
+
 Overview
 ======================
 
@@ -362,6 +406,16 @@ Deploying and Testing BatTest Demo App
 	* `concurrency` is the number of concurrent outbound connections allowed
 	* `drop-frequency` is how often should bytes be dropped (`byte count` % `drop frequency`)
 	  * Due to the definition of `drop-frequency` not being clear, an issue has been created on [crapify's GitHub repo](https://github.com/bcoe/crapify/issues/7)
+
+###### Using Crapify with a Phone
+If you wish to use Crapify to degrade a phone's network connection, you need to install and run crapify on a server and then redirect all the phone's traffic through that server. This requires both having adb (android debugger) installed as well as a phone that is adb compatible (ie Android or Firefox OS):
+
+1. Install and run crapify on the server as described above.
+2. Connect the phone via microUSB to the computer with adb installed.
+3. Run the following command: 
+  * `adb shell iptables -t nat -A OUTPUT -p tcp --dport 80 -j DNAT --to-destination x.x.x.x:5000`
+  * Where `x.x.x.x` is your server's IP address
+4. As long as the phone remains connected, all traffic on the phone should be degraded in accordance with the Crapify settings on the server.
 
 ##### Setting Up Environment For Battery Harness Testing
 1. Install VirtualBox and open it up from here: https://www.virtualbox.org/  
