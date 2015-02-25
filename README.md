@@ -22,6 +22,7 @@ Table of Contents
     - [Firefox OS](#firefox-os)
       - [Make a critical request](#make-a-critical-request)
       - [Make a non-critical request](#make-a-non-critical-request)
+      - [Add a Timeout to the Non-Critical Request] (#add-a-timeout-to-the-non-critical-request)
       - [Grab the most recent requests and display the begin/end difference](#grab-the-most-recent-requests-and-display-the-beginend-difference)
     - [Other](#other-1)
   - [Tips to Consider for Further Minimizing Battery Drain](#tips-to-consider-for-further-minimizing-battery-drain)
