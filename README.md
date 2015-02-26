@@ -22,6 +22,7 @@ Table of Contents
     - [Firefox OS](#firefox-os)
       - [Make a critical request](#make-a-critical-request)
       - [Make a non-critical request](#make-a-non-critical-request)
+      - [Add a Timeout to the Non-Critical Request] (#add-a-timeout-to-the-non-critical-request)
       - [Grab the most recent requests and display the begin/end difference](#grab-the-most-recent-requests-and-display-the-beginend-difference)
     - [Other](#other-1)
   - [Tips to Consider for Further Minimizing Battery Drain](#tips-to-consider-for-further-minimizing-battery-drain)
@@ -168,7 +169,31 @@ function addNonCriticalRequest() {
 }
 ```
 
-By using `AL.ajax(urlString.value, null, function () {});` we are passing in the desired URL as the first argument. Since we have no extra data we need to pass in, the second parameter is `null`. As a result, this request will be a GET. Were we need to put data in our request we would put it in this argument and instead of a GET request, a POST request would be made. For the third argument since we aren't interested in doing anything upon the request being completed we leave the callback blank.
+By using `AL.addNonCriticalRequest(urlString.value, null, function () {});` we are passing in the desired URL as the first argument. Since we have no extra data we need to pass in, the second parameter is `null`. As a result, and because we did not specify a fourth (`method`) argument, this request will be a GET. Were we need to put data in our request we would put it in this argument and instead of a GET request, a POST request would be made. For the third argument since we aren't interested in doing anything upon the request being completed we leave the callback blank.
+
+###### Add a Timeout to the Non-Critical Request
+You might have a case where you make a request for something that the user wants and requests via a URL in a textbox element when a user presses a button, but doesn't need right now. However, the user will need it by a certain time. In this case, we can provide a `timeout` (in milliseconds) to the `addNonCriticalRequest` method.
+
+Index.html code:
+```html
+<input type="text" id="requestURL" size=45 value="https://rocky-lake-3451.herokuapp.com?q=cats"><br /><br />
+
+<button id="addNonCriticalReq">Add non-critical request(s)</button>
+```
+Javascript:
+```javascript
+window.addEventListener('load', function () {
+  document.getElementById('addNonCriticalReq').addEventListener('click', addNonCriticalRequest);
+});
+
+function addNonCriticalRequest() {
+  var urlString = document.getElementById('requestURL');
+  AL.addNonCriticalRequest(urlString.value, null, function () {
+  }, null, 5000);
+}
+```
+
+By using `AL.addNonCriticalRequest(urlString.value, null, function () {}, null, 5000);` we are adding an optional timeout to the request. If 5 seconds (5000 milliseconds) pass and the request has yet to fire, it will force itself to fire. 
 
 ###### Grab the most recent requests and display the begin/end difference
 As a developer you might want to check to see if the most recent requests have a long time between when they start and when they end and visually display it. The following code grabs the most recent 5 records, calculates the difference between each request's begin and end, and then displays it as text.
@@ -247,9 +272,10 @@ The success function is passed 3 arguments:<br>
 #### Non-critical AJAX Requests
 A non-critical request is added to a queue and waits until conditions are good enough to be fired.
 
-`AL.addNonCriticalRequest(url, data, callback)`
+`AL.addNonCriticalRequest(url [, data] [, success] [, method] [, timeout])`
 
-The parameters are the same as the AL.ajax method.
+The parameters are the same as the AL.ajax method, with the exception of the optional `timeout` parameter. If given, the non-critical request will wait `timeout` milliseconds to fire. If `timeout` milliseconds has passed and the event has not yet fired, it will fire off automatically.<br>
+Note that the way the request is fired is by firing off the entire non-critical request queue. Therefore care should taken in ensuring that only events that <i>must</i> fire within a certain time frame be given this parameter.
 
 #### Latency Recording and Analysis
 When the library is used for an AJAX request, information about the request is recorded
