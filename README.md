@@ -253,11 +253,12 @@ All functionality is exposed through a global object called "AL" (for AJAX Libra
 #### AJAX Requests
 To make an AJAX request use the AL.ajax() method.
 
-`AL.ajax(url [, data] [, success])`
+`AL.ajax(url [, data] [, success] [, method])`
 
 An XMLHttpRequest object will be created using `url` as the endpoint. <br>
 `data`, if provided, will be JSON-encoded and passed to the endpoint.<br>
 `success` will be called when the request has completed successfully<br>
+`method` will set the HTTP method to use (ie, 'Patch', 'Put', etc). If not set, 'Get' will be used if the data argument is null, otherwise defaults to 'Post'
 
 The API will use a GET request if there is no data, otherwise it will be a POST.
 
@@ -269,6 +270,36 @@ The success function is passed 3 arguments:<br>
 `responseBody` will be the data that is received back from the endpoint.<br>
 `status` is the status code of the request (200, 404, etc)<br>
 `xhr` is the actual XMLHttpRequest object that was used to make the request<br>
+
+Example
+```javascript
+AL.ajax('http://rocky-lake-3451.herokuapp.com/', {cats: 20}, function(response, status, xhr) {
+  console.log('Response: ', response);
+  console.log('Status: ', status);
+  console.log('Xhr: ', xhr);
+});
+```
+Gives a result like
+```javascript
+Response: {"request_method":"POST","request_parameters":[]}
+Status: 200
+Xhr: XMLHttpRequest { readyState=4, timeout=0, withCredentials=false, ...}
+```
+
+Example
+```javascript
+AL.ajax('http://rocky-lake-3451.herokuapp.com/', {cats: 20}, function(response, status, xhr) {
+  console.log('Response: ', response);
+  console.log('Status: ', status);
+  console.log('Xhr: ', xhr);
+}, 'put');
+```
+Gives a result like
+```javascript
+Response: {"request_method":"PUT","request_parameters":[]}
+Status: 200
+Xhr: XMLHttpRequest { readyState=4, timeout=0, withCredentials=false, ...}
+```
 
 #### Non-critical AJAX Requests
 A non-critical request is added to a queue and waits until conditions are good enough to be fired.
