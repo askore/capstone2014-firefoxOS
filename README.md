@@ -52,6 +52,7 @@ Table of Contents
       - [If you are on a Linux Host](#if-you-are-on-a-linux-host)
       - [If you are on a Windows Host](#if-you-are-on-a-windows-host)
       - [Making use of the VM from the USB stick](#making-use-of-the-vm-from-the-usb-stick)
+- [Future Work](#future-work)
 
 Overview
 ======================
