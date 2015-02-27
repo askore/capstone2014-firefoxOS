@@ -269,6 +269,21 @@ The success function is passed 3 arguments:<br>
 `status` is the status code of the request (200, 404, etc)<br>
 `xhr` is the actual XMLHttpRequest object that was used to make the request<br>
 
+Example
+```javascript
+AL.ajax('http://rocky-lake-3451.herokuapp.com/', {cats: 20}, function(response, status, xhr) {
+  console.log('Response: ', response);
+  console.log('Status: ', status);
+  console.log('Xhr: ', xhr);
+});
+```
+Gives a result like
+```javascript
+Response: {"request_method":"POST","request_parameters":[]}
+Status: 200
+Xhr: XMLHttpRequest { readyState=4, timeout=0, withCredentials=false, more...}
+```
+
 #### Non-critical AJAX Requests
 A non-critical request is added to a queue and waits until conditions are good enough to be fired.
 
