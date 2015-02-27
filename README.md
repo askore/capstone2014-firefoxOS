@@ -509,3 +509,12 @@ Desktop/tests.json -o Desktop/tests.csv
 2. Click Stop to finish collecting the data.
 3. Exit out of the fxPowertool program.
 4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
+
+Future Work
+======================
+There are potentially better interfaces that may be implemented, such as methods similar to $.get() and $.post() from jQuery. 
+
+The $.get() method requests data from the server with an HTTP GET request while the $.post() method requests data from the server with an HTTP POST request. 
+
+The following link provides an example of something similiar to implement in the future. 
+http://www.w3schools.com/jquery/jquery_ajax_get_post.asp
