@@ -52,6 +52,7 @@ Table of Contents
       - [If you are on a Linux Host](#if-you-are-on-a-linux-host)
       - [If you are on a Windows Host](#if-you-are-on-a-windows-host)
       - [Making use of the VM from the USB stick](#making-use-of-the-vm-from-the-usb-stick)
+- [Future Work](#future-work)
 
 Overview
 ======================
@@ -503,9 +504,16 @@ Desktop/tests.json -o Desktop/tests.csv
 
 *If you are on windows, replace ttyS0 with ttyACM0 in the command above*
 
-**Make sure the screen is off before testing! Having the screen on will cause the battery usage to increase, throwing off the data.**
-
 1. Click Start to begin testing power. You can also switch to the next test.
 2. Click Stop to finish collecting the data.
 3. Exit out of the fxPowertool program.
 4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
+
+Future Work
+======================
+There are potentially better interfaces that may be implemented, such as methods similar to $.get() and $.post() from jQuery. 
+
+The $.get() method requests data from the server with an HTTP GET request while the $.post() method requests data from the server with an HTTP POST request. 
+
+The following link provides an example of something similiar to implement in the future. 
+http://www.w3schools.com/jquery/jquery_ajax_get_post.asp
