@@ -503,8 +503,6 @@ Desktop/tests.json -o Desktop/tests.csv
 
 *If you are on windows, replace ttyS0 with ttyACM0 in the command above*
 
-**Make sure the screen is off before testing! Having the screen on will cause the battery usage to increase, throwing off the data.**
-
 1. Click Start to begin testing power. You can also switch to the next test.
 2. Click Stop to finish collecting the data.
 3. Exit out of the fxPowertool program.
