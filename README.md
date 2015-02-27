@@ -52,6 +52,9 @@ Table of Contents
       - [If you are on a Linux Host](#if-you-are-on-a-linux-host)
       - [If you are on a Windows Host](#if-you-are-on-a-windows-host)
       - [Making use of the VM from the USB stick](#making-use-of-the-vm-from-the-usb-stick)
+    - [Server-side Testing](#server-side-testing)
+      - [Server usage](#server-usage)
+      - [Server development](#server-development)
 
 Overview
 ======================
@@ -509,3 +512,25 @@ Desktop/tests.json -o Desktop/tests.csv
 2. Click Stop to finish collecting the data.
 3. Exit out of the fxPowertool program.
 4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
+
+##### Server-side Testing 
+To help with testing, a [simple echo server](https://github.com/TheBosZ/simple-echo-server) has been set up to respond with requests. It's currently running at: http://rocky-lake-3451.herokuapp.com/
+
+###### Server usage
+A simple PHP echo server to run on heroku. All requests are returned with a json object identifying the request type ("Post", "Get", etc).
+
+CORS is enabled unless a special header or request parameter is set: 'DISABLE_CORS'. If that header or request parameter is set (regardless of values) cross-domain requests are rejected.
+
+If the parameter 'timeout' is set to a number, the server will delay it's response by that many seconds.
+
+If the parameter 'data_size' is set to a number, the response will be a binary file with a length matching the sent data size.
+
+###### Server development
+Clone the repository from https://github.com/TheBosZ/simple-echo-server
+
+Install the [heroku toolkit](https://devcenter.heroku.com/articles/getting-started-with-php#set-up)
+
+After committing changes, push to heroku:
+```
+git push heroku master
+```
