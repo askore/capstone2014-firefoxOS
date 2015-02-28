@@ -48,9 +48,6 @@ function addNonCriticalRequestHandler() {
 function removeNonCriticalRequest() {
 	var url = document.getElementById('requestURL');
 	AL.removeNonCriticalRequest(url.value);
-	
-	
-	
 }
 
 function addNonCriticalRequest() {
@@ -61,8 +58,8 @@ function addNonCriticalRequest() {
 
 function addNonCriticalRequestQuantity(numAdd) {
 	for (var i = 0; i < numAdd; ++i) {
-		addNonCriticalRequest();			
-	}	
+		addNonCriticalRequest();
+	}
 }
 
 function updateChargingStatus() {
@@ -84,11 +81,11 @@ function fireCriticalRequestHandler() {
 	var interval = document.getElementById('critInterval').value;
 	var addNonCritBefore = document.getElementById('autoAddNonCritCheck');
 	var numAdd = document.getElementById('numNonCritReqAdd').value;
-	
+
 	if (addNonCritBefore.checked === true) {
-		addNonCriticalRequestQuantity(numAdd);			
+		addNonCriticalRequestQuantity(numAdd);
 	}
-	
+
 	if (+interval === 0) {
 		fireCriticalRequest();
 	} else {
@@ -141,6 +138,3 @@ function getRecords() {
 function clearHistory() {
 	AL.clearHistory();
 }
-
-
-

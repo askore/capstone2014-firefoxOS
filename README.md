@@ -22,7 +22,8 @@ Table of Contents
     - [Firefox OS](#firefox-os)
       - [Make a critical request](#make-a-critical-request)
       - [Make a non-critical request](#make-a-non-critical-request)
-      - [Add a Timeout to the Non-Critical Request] (#add-a-timeout-to-the-non-critical-request)
+      - [Add a timeout to the non-critical request](#add-a-timeout-to-the-non-critical-request)
+      - [Remove a non-critical request from the queue](#remove-a-non-critical-request-from-the-queue)
       - [Grab the most recent requests and display the begin/end difference](#grab-the-most-recent-requests-and-display-the-beginend-difference)
     - [Other](#other-1)
   - [Tips to Consider for Further Minimizing Battery Drain](#tips-to-consider-for-further-minimizing-battery-drain)
@@ -175,7 +176,7 @@ function addNonCriticalRequest() {
 
 By using `AL.addNonCriticalRequest(urlString.value, null, function () {});` we are passing in the desired URL as the first argument. Since we have no extra data we need to pass in, the second parameter is `null`. As a result, and because we did not specify a fourth (`method`) argument, this request will be a GET. Were we need to put data in our request we would put it in this argument and instead of a GET request, a POST request would be made. For the third argument since we aren't interested in doing anything upon the request being completed we leave the callback blank.
 
-###### Add a Timeout to the Non-Critical Request
+###### Add a timeout to the non-critical request
 You might have a case where you make a request for something that the user wants and requests via a URL in a textbox element when a user presses a button, but doesn't need right now. However, the user will need it by a certain time. In this case, we can provide a `timeout` (in milliseconds) to the `addNonCriticalRequest` method.
 
 Index.html code:
@@ -197,7 +198,18 @@ function addNonCriticalRequest() {
 }
 ```
 
-By using `AL.addNonCriticalRequest(urlString.value, null, function () {}, null, 5000);` we are adding an optional timeout to the request. If 5 seconds (5000 milliseconds) pass and the request has yet to fire, it will force itself to fire. 
+By using `AL.addNonCriticalRequest(urlString.value, null, function () {}, null, 5000);` we are adding an optional timeout to the request. If 5 seconds (5000 milliseconds) pass and the request has yet to fire, it will force itself to fire.
+
+###### Remove a non-critical request from the queue
+There might be a case where the user has navigated away from a page containing non-critical resources with requests that have yet to fire and thus you no longer need those requests in the queue. Since the requests are known you can remove a request from the queue by specifying the URL.
+
+Javascript:
+```javascript
+  function removeNonCriticalRequest() {
+    var url = document.getElementById('requestURL');
+    AL.removeNonCriticalRequest(url.value);
+}
+```
 
 ###### Grab the most recent requests and display the begin/end difference
 As a developer you might want to check to see if the most recent requests have a long time between when they start and when they end and visually display it. The following code grabs the most recent 5 records, calculates the difference between each request's begin and end, and then displays it as text.
@@ -246,7 +258,7 @@ Certain functionality the API uses such as is the device charging and our "batte
 * Avoid unnecessary data processing on the client
  * If data processing can happen on the server side, process it there to minimize CPU (and consequently battery) usage
 * Avoid excessive polling of the server
- * The API works best in when requests are concentrated at certain time points and the time points are spread out; excessive polling reduces the spread between time points and increases the number of points, consequently using up more battery
+ * The API works best when requests are concentrated at certain time points and the time points are spread out; excessive polling reduces the spread between time points and increases the number of points, consequently using up more battery
 
 API Usage
 ======================
@@ -543,7 +555,7 @@ Desktop/tests.json -o Desktop/tests.csv
 3. Exit out of the fxPowertool program.
 4. Open up "LibreOffice" from the desktop and navigate to the folder where your CSV files were saved.
 
-##### Server-side Testing 
+##### Server-side Testing
 To help with testing, a [simple echo server](https://github.com/TheBosZ/simple-echo-server) has been set up to respond with requests. It's currently running at: http://rocky-lake-3451.herokuapp.com/
 
 ###### Server usage
@@ -567,9 +579,9 @@ git push heroku master
 
 Future Work
 ======================
-There are potentially better interfaces that may be implemented, such as methods similar to $.get() and $.post() from jQuery. 
+There are potentially better interfaces that may be implemented, such as methods similar to $.get() and $.post() from jQuery.
 
-The $.get() method requests data from the server with an HTTP GET request while the $.post() method requests data from the server with an HTTP POST request. 
+The $.get() method requests data from the server with an HTTP GET request while the $.post() method requests data from the server with an HTTP POST request.
 
-The following link provides an example of something similiar to implement in the future. 
+The following link provides an example of something similiar to implement in the future.
 http://www.w3schools.com/jquery/jquery_ajax_get_post.asp
